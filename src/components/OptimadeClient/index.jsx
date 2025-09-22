@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { OptimadeProviderDropdown } from "../OptimadeProviderDropdown";
 import { OptimadeFilters } from "../OptimadeFilters";
 
-import StructureViewer from "../common/StructureViewer";
+import { StructureDownload } from "../common/StructureDownload";
+
+import { StructureViewerWithDownload } from "../OptimadeStructureHandler";
 
 import { getProvidersList } from "../../api";
 
@@ -164,8 +166,8 @@ export function OptimadeClient() {
 
         {/* Structure viewer */}
         {selectedResult && (
-          <div className="ml-4 mx-auto w-full h-96">
-            <StructureViewer />
+          <div className="ml-4 mx-auto">
+            <StructureViewerWithDownload OptimadeStructure={selectedResult} />
           </div>
         )}
 

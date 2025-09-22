@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
+    "gl-matrix": "^3.4.4",
     "mc-react-ptable-materials-grid": "^0.8.6",
+    "mc-react-structure-visualizer": "^0.7.3",
     "ngl": "^2.4.0",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-range": "^1.10.0"
   },
   "devDependencies": {
