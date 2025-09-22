@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { OptimadeProviderDropdown } from "../OptimadeProviderDropdown";
 import { OptimadeFilters } from "../OptimadeFilters";
 
-import { StructureDownload } from "../common/StructureDownload";
-
 import { StructureViewerWithDownload } from "../OptimadeStructureHandler";
 
 import { getProvidersList } from "../../api";
+
+import { FirstIcon, LastIcon, NextIcon, PreviousIcon } from "../common/Icons";
 
 export function OptimadeClient() {
   const [providers, setProviders] = useState([]);
@@ -89,19 +89,20 @@ export function OptimadeClient() {
   };
 
   return (
-    <div>
-      {/* Logo */}
-      <div className="flex items-start justify-start">
+    <div className="min-h-screen flex flex-col items-center">
+      {/* Logo at the top */}
+      <div className="flex justify-center py-4 bg-white shadow w-full">
         <img
           src="/optimade_logo.png"
           alt="OptimadeLogo"
-          className="h-32 w-auto object-contain"
+          className="h-24 sm:h-32 w-auto object-contain"
         />
       </div>
 
-      <div className="flex flex-col space-y-12">
+      {/* Main content area: single column */}
+      <div className="flex flex-col items-center w-full max-w-4xl p-6 sm:p-8 space-y-8">
         {/* Provider dropdown */}
-        <div className="ml-4 mx-auto">
+        <div className="w-full">
           <OptimadeProviderDropdown
             providers={providers}
             loading={loading}
@@ -111,7 +112,7 @@ export function OptimadeClient() {
         </div>
 
         {/* Filters */}
-        <div className="ml-4 mx-auto">
+        <div className="w-full">
           <OptimadeFilters
             providerUrl={selectedProviderUrl}
             onResults={handleResults}
@@ -120,7 +121,7 @@ export function OptimadeClient() {
         </div>
 
         {/* Results dropdown */}
-        <div className="ml-4 mx-auto w-72">
+        <div className="w-full">
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Select a result
           </label>
@@ -132,83 +133,87 @@ export function OptimadeClient() {
             </div>
           ) : (
             <select
-              className="w-full border-2 border-slate-300 bg-slate-200 py-2 px-3 rounded shadow hover:cursor-pointer hover:bg-slate-300"
-              value={selectedResult?.id || (results?.data?.[0]?.id ?? "")}
+              className="w-full border-2 border-slate-300 bg-slate-200 py-2 px-3 rounded shadow hover:cursor-pointer hover:bg-slate-300 disabled:cursor-not-allowed disabled:bg-gray-100"
+              value={selectedResult?.id || ""}
               onChange={(e) => {
-                const chosen = results.data.find(
+                const chosen = results?.data?.find(
                   (r) => r.id === e.target.value
                 );
                 if (chosen) setSelectedResult(chosen);
               }}
+              disabled={!results?.data || results?.data.length === 0}
             >
-              {results?.data?.map((result) => (
-                <option key={result.id} value={result.id}>
-                  {`${
-                    result.attributes?.chemical_formula_descriptive || "Unknown"
-                  } (${result.id})`}
-                </option>
-              ))}
+              {!results?.data || results.data.length === 0 ? (
+                <option value="">No query applied</option>
+              ) : (
+                results.data.map((result) => (
+                  <option key={result.id} value={result.id}>
+                    {`${
+                      result.attributes?.chemical_formula_descriptive ||
+                      "Unknown"
+                    } (${result.id})`}
+                  </option>
+                ))
+              )}
             </select>
           )}
         </div>
 
-        {/* Selected result */}
-        {selectedResult && (
-          <div className="ml-4 mx-auto w-10/12">
-            <h4 className="text-lg font-semibold mb-2">Selected Result</h4>
-            <div className="p-4 bg-white rounded shadow border max-h-64 overflow-auto">
-              <pre className="text-sm text-gray-800">
-                {JSON.stringify(selectedResult, null, 2)}
-              </pre>
-            </div>
-          </div>
-        )}
-
-        {/* Structure viewer */}
-        {selectedResult && (
-          <div className="ml-4 mx-auto">
-            <StructureViewerWithDownload OptimadeStructure={selectedResult} />
-          </div>
-        )}
-
         {/* Pagination */}
         {metaData.data_returned > 0 && (
-          <div className="ml-4 mx-auto flex items-center space-x-2">
-            <span className="text-gray-700">
+          <div className="flex flex-wrap justify-center items-center gap-2">
+            <span className="text-gray-700 text-sm text-center w-full md:w-auto">
               {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Page ${currentPage} of ${totalPages}`}
             </span>
 
             <button
               onClick={() => fetchPage(1)}
               disabled={currentPage === 1 || resultsLoading}
-              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
             >
-              ⏮ First
+              <FirstIcon />
             </button>
 
             <button
               onClick={() => fetchPage(currentPage - 1)}
               disabled={currentPage === 1 || resultsLoading}
-              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
             >
-              ◀ Prev
+              <PreviousIcon />
             </button>
 
             <button
               onClick={() => fetchPage(currentPage + 1)}
               disabled={currentPage === totalPages || resultsLoading}
-              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
             >
-              Next ▶
+              <NextIcon />
             </button>
 
             <button
               onClick={() => fetchPage(totalPages)}
               disabled={currentPage === totalPages || resultsLoading}
-              className="px-2 py-1 bg-gray-200 rounded disabled:opacity-50"
+              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
             >
-              Last ⏭
+              <LastIcon />
             </button>
+          </div>
+        )}
+
+        {/* Selected result JSON */}
+        {selectedResult && (
+          <div className="w-full flex flex-col space-y-6 items-center">
+            <div className="bg-white rounded shadow border p-4 w-full max-h-64 overflow-auto">
+              <h4 className="text-lg font-semibold mb-2">Selected Result</h4>
+              <pre className="text-sm text-gray-800">
+                {JSON.stringify(selectedResult, null, 2)}
+              </pre>
+            </div>
+
+            {/* Structure viewer */}
+            <div className="w-full">
+              <StructureViewerWithDownload OptimadeStructure={selectedResult} />
+            </div>
           </div>
         )}
       </div>

@@ -16,16 +16,13 @@ const defaultColors = {
 };
 
 export default function PTable({
-  selected = {}, // { [symbol]: state }
-  onSelectionChange, // callback to parent
+  selected = {},
+  onSelectionChange,
   colors = defaultColors,
-  defaultClassName = "rounded-sm items-center justify-center w-12 h-12",
   selectedClassName = "bg-green-400 border border-green-700 text-white scale-105",
   deselectedClassName = "bg-red-400 border border-red-700 text-white scale-105",
   defaultBorderClassName = "border border-slate-700",
-  hoverClassName = "transform transition-transform duration-200 hover:scale-125 hover:z-50",
-  elementNumberText = "text-[12px]",
-  elementSymbolText = "font-md text-[20px]",
+  hoverClassName = "transform transition-transform duration-100 hover:scale-105 hover:z-10",
 }) {
   const toggle = (sym) => {
     if (!onSelectionChange) return;
@@ -43,23 +40,38 @@ export default function PTable({
   };
 
   return (
-    <div
-      className="grid gap-1"
-      style={{ gridTemplateColumns: "repeat(18, 3em)" }}
-    >
-      {elements.map((el) => (
-        <button
-          key={el.sym}
-          onClick={() => toggle(el.sym)}
-          style={{ gridColumn: el.col, gridRow: el.row }}
-          className={`flex flex-col justify-between ${defaultClassName} ${hoverClassName} ${getColorClass(
-            el
-          )}`}
-        >
-          <span className={elementNumberText}>{el.num}</span>
-          <span className={elementSymbolText}>{el.sym}</span>
-        </button>
-      ))}
+    <div className="w-full max-w-full mx-auto p-0">
+      <div
+        className="grid gap-0.5 sm:gap-1 w-full"
+        style={{ gridTemplateColumns: "repeat(18, minmax(0, 1fr))" }}
+      >
+        {elements.map((el) => (
+          <div
+            key={el.sym}
+            style={{ gridColumn: el.col, gridRow: el.row }}
+            className="relative w-full"
+          >
+            <div className="w-full aspect-square">
+              <button
+                onClick={() => toggle(el.sym)}
+                className={`flex flex-col justify-center items-center w-full h-full rounded-sm ${hoverClassName} ${getColorClass(
+                  el
+                )}`}
+              >
+                {/* Atomic number: hidden on very small screens, small on xs, bigger on sm+ */}
+                <span className="text-[0%] xs:text-[0%] sm:text-[0%] md:text-[80%] lg:text-[100%] text-gray-700 leading-tight">
+                  {el.num}
+                </span>
+
+                {/* Symbol: smaller on very tiny, slightly bigger on xs, full on sm+ */}
+                <span className="text-[55%] xs:text-[100%] sm:text-[120%] md:text-[120%] lg:text-[125%] font-medium leading-none">
+                  {el.sym}
+                </span>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

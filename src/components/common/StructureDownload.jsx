@@ -93,13 +93,13 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
     <div className="relative inline-block" ref={containerRef}>
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 cursor-pointer"
+        className="flex items-center gap-1 px-2 py-2 text-sm bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 cursor-pointer"
         title="Download"
       >
         <DownloadIcon />
       </div>
       {open && (
-        <div className="absolute left-0 mt-2 bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 z-10">
+        <div className="absolute right-0 mt-1 bg-white rounded-md shadow-md ring-2 ring-black ring-opacity-5 z-10">
           <ul className="list-none p-0 m-0">
             {downloadFormats.map(({ format, label }) => (
               <li key={format}>

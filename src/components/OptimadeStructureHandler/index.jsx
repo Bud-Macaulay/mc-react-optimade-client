@@ -1,13 +1,12 @@
-import { useState } from "react";
-
+import { useMemo } from "react";
 import StructureVisualizer from "mc-react-structure-visualizer";
-
-// import { StructureVisualizer } from "mc-react-structure-visualizer";
-
 import { StructureDownload } from "../common/StructureDownload";
 import { generateCIFfromMatrix } from "../../utils";
 
-export function StructureViewerWithDownload({ OptimadeStructure }) {
+export function StructureViewerWithDownload({
+  OptimadeStructure,
+  className = "",
+}) {
   const lattice = OptimadeStructure.attributes.lattice_vectors;
   const sitesRaw = OptimadeStructure.attributes.cartesian_site_positions;
   const species = OptimadeStructure.attributes.species_at_sites;
@@ -21,18 +20,26 @@ export function StructureViewerWithDownload({ OptimadeStructure }) {
 
   const structureData = { lattice, sites };
 
-  // Generate CIF string for the visualizer
-  const cifText = generateCIFfromMatrix(structureData);
+  // Memoize CIF generation so it doesn't regenerate unnecessarily
+  const cifText = useMemo(
+    () => generateCIFfromMatrix(structureData),
+    [structureData]
+  );
 
   return (
-    <div className="relative w-full h-full border rounded-lg overflow-hidden">
+    <div
+      className={`relative border rounded-lg w-full min-h-[450px] ${className}`}
+      style={{ height: "100%" }}
+    >
       {/* Top-right download dropdown */}
       <div className="absolute top-2 right-2 z-10">
         <StructureDownload OptimadeStructure={OptimadeStructure} />
       </div>
 
       {/* Visualizer fills container */}
-      <StructureVisualizer cifText={cifText} />
+      <div className="w-full h-[450px]">
+        <StructureVisualizer key={cifText} cifText={cifText} />
+      </div>
     </div>
   );
 }
