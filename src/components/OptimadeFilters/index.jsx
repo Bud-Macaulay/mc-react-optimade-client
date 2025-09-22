@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import PTable from "./OptimadePTable";
 import { QueryTextBox } from "./OptimadeRawQuery";
 import RangeSlider from "../common/RangeSlider";
+
 import { buildQueryString } from "./OptimadeRawQuery/buildQueryString";
 
-export function OptimadeFilters({ providerUrl, onResults }) {
+export function OptimadeFilters({ providerUrl, onResults, onFilterChange }) {
   const [numAtomsRange, setNumAtomsRange] = useState([1, 118]);
   const [numSitesRange, setNumSitesRange] = useState([1, 1000]);
   const [selectedElements, setSelectedElements] = useState({});
@@ -18,6 +19,11 @@ export function OptimadeFilters({ providerUrl, onResults }) {
     numAtomsRange,
     numSitesRange
   );
+
+  // Notify parent about current filter whenever it changes
+  useEffect(() => {
+    onFilterChange?.(filterString);
+  }, [filterString]);
 
   const handleSubmit = async () => {
     if (!providerUrl) return alert("Please select a provider first!");
@@ -33,7 +39,7 @@ export function OptimadeFilters({ providerUrl, onResults }) {
       if (!res.ok) throw new Error(`Request failed: ${res.status}`);
       const data = await res.json();
 
-      onResults?.(data); // ✅ send parsed results up
+      onResults?.(data); // send parsed results up
     } catch (err) {
       console.error("Error fetching structures:", err);
     } finally {

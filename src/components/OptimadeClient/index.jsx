@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { OptimadeProviderDropdown } from "../OptimadeProviderDropdown";
 import { OptimadeFilters } from "../OptimadeFilters";
-import { OptimadeResultsDropdown } from "../OptimadeResultsDropDown";
+
+import StructureViewer from "../common/StructureViewer";
+
 import { getProvidersList } from "../../api";
 
 export function OptimadeClient() {
@@ -13,6 +15,8 @@ export function OptimadeClient() {
   const [results, setResults] = useState(null);
   const [resultsLoading, setResultsLoading] = useState(false);
   const [selectedResult, setSelectedResult] = useState(null);
+
+  const [currentFilter, setCurrentFilter] = useState("");
 
   const pageSize = 20;
 
@@ -39,14 +43,22 @@ export function OptimadeClient() {
   // Handle new results
   const handleResults = (data) => {
     setResults(data);
-    console.log(data);
     setSelectedResult(data?.data?.[0] || null);
 
-    // update pagination info
-    setMetaData(data?.meta ?? {});
+    const meta = data?.meta ?? {};
+    setMetaData(meta);
 
-    setTotalPages(Math.ceil(metaData.data_returned / 20));
+    const total = meta.data_returned ?? 0;
+    setTotalPages(Math.max(1, Math.ceil(total / pageSize)));
   };
+  {
+    /* ensure first result is selected on load */
+  }
+  useEffect(() => {
+    if (results?.data?.length > 0 && !selectedResult) {
+      setSelectedResult(results.data[0]);
+    }
+  }, [results]);
 
   // Fetch specific page
   const fetchPage = async (pageNum) => {
@@ -55,8 +67,12 @@ export function OptimadeClient() {
     setResultsLoading(true);
     try {
       const offset = (pageNum - 1) * pageSize;
-      const url = `${selectedProviderUrl}/v1/structures?page_offset=${offset}`;
 
+      const query = currentFilter
+        ? `?filter=${encodeURIComponent(currentFilter)}&page_offset=${offset}`
+        : `?page_offset=${offset}`;
+
+      const url = `${selectedProviderUrl}/v1/structures${query}`;
       const res = await fetch(url);
       if (!res.ok) throw new Error(`Failed: ${res.status}`);
       const data = await res.json();
@@ -97,17 +113,41 @@ export function OptimadeClient() {
           <OptimadeFilters
             providerUrl={selectedProviderUrl}
             onResults={handleResults}
+            onFilterChange={setCurrentFilter}
           />
         </div>
 
         {/* Results dropdown */}
-        <div className="ml-4 mx-auto">
-          <OptimadeResultsDropdown
-            results={results}
-            loading={resultsLoading}
-            selectedResult={selectedResult}
-            onSelect={setSelectedResult}
-          />
+        <div className="ml-4 mx-auto w-72">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Select a result
+          </label>
+
+          {resultsLoading ? (
+            <div className="flex items-center space-x-2">
+              <div className="w-5 h-5 border-2 border-t-2 border-gray-400 border-t-blue-500 rounded-full animate-spin"></div>
+              <span className="text-gray-500">Loading results…</span>
+            </div>
+          ) : (
+            <select
+              className="w-full border-2 border-slate-300 bg-slate-200 py-2 px-3 rounded shadow hover:cursor-pointer hover:bg-slate-300"
+              value={selectedResult?.id || (results?.data?.[0]?.id ?? "")}
+              onChange={(e) => {
+                const chosen = results.data.find(
+                  (r) => r.id === e.target.value
+                );
+                if (chosen) setSelectedResult(chosen);
+              }}
+            >
+              {results?.data?.map((result) => (
+                <option key={result.id} value={result.id}>
+                  {`${
+                    result.attributes?.chemical_formula_descriptive || "Unknown"
+                  } (${result.id})`}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
 
         {/* Selected result */}
@@ -119,6 +159,13 @@ export function OptimadeClient() {
                 {JSON.stringify(selectedResult, null, 2)}
               </pre>
             </div>
+          </div>
+        )}
+
+        {/* Structure viewer */}
+        {selectedResult && (
+          <div className="ml-4 mx-auto w-full h-96">
+            <StructureViewer />
           </div>
         )}
 

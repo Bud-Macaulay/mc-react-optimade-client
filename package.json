@@ -12,6 +12,7 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
     "mc-react-ptable-materials-grid": "^0.8.6",
+    "ngl": "^2.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-range": "^1.10.0"
