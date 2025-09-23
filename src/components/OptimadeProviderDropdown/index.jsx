@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DropdownWithSpinner } from "../common/DropDownWIthSpinner";
+import { getProviderLinks } from "../../api";
 
 export function OptimadeProviderDropdown({
   providers = [],
@@ -14,40 +15,24 @@ export function OptimadeProviderDropdown({
   const [linksLoading, setLinksLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchLinks(baseUrl) {
+    async function loadLinks(url) {
       setLinksLoading(true);
-      try {
-        const res = await fetch(
-          `https://cors-anywhere.com/${baseUrl}/v1/links`
-        );
-        if (!res.ok) throw new Error(`Failed to fetch links: ${res.status}`);
-        const json = await res.json();
+      const { children } = await getProviderLinks(url);
 
-        const children = (json.data || []).filter(
-          (d) => d.attributes?.link_type === "child"
-        );
-
-        if (children.length === 1) {
-          setSelectedSub(children[0].attributes.base_url);
-          setSubProviders([]);
-          onSelectUrl?.(children[0].attributes.base_url);
-        } else {
-          setSubProviders(children);
-          setSelectedSub("");
-          onSelectUrl?.(baseUrl);
-        }
-      } catch (err) {
-        console.error("Error fetching links:", err);
+      if (children.length === 1) {
+        setSelectedSub(children[0].attributes.base_url);
         setSubProviders([]);
+        onSelectUrl?.(children[0].attributes.base_url);
+      } else {
+        setSubProviders(children);
         setSelectedSub("");
-        onSelectUrl?.(baseUrl);
-      } finally {
-        setLinksLoading(false);
+        onSelectUrl?.(url);
       }
+      setLinksLoading(false);
     }
 
     if (selected && selected !== "__custom__") {
-      fetchLinks(selected);
+      loadLinks(selected);
     } else {
       setSubProviders([]);
       setSelectedSub("");
@@ -65,7 +50,6 @@ export function OptimadeProviderDropdown({
 
   return (
     <div className="flex flex-col items-center w-full px-4 py-6">
-      {/* Title */}
       <h1 className="text-2xl font-bold pb-4 text-center">Query a database</h1>
 
       <section className="flex flex-col space-y-4 w-full max-w-3xl">
@@ -78,7 +62,6 @@ export function OptimadeProviderDropdown({
 
         {!loading && !error && (
           <>
-            {/* Provider dropdown */}
             <div className="w-full">
               <DropdownWithSpinner
                 options={providers
@@ -97,7 +80,6 @@ export function OptimadeProviderDropdown({
               />
             </div>
 
-            {/* Sub-provider dropdown if multiple */}
             {subProviders.length > 1 && (
               <div className="w-full">
                 <DropdownWithSpinner

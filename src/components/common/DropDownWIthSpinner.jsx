@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { slateDropdown } from "../../styles/dropdownStyles";
 
 export function DropdownWithSpinner({
   options = [],
@@ -13,6 +14,7 @@ export function DropdownWithSpinner({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [internalValue, setInternalValue] = useState(value || "");
+  const [customActive, setCustomActive] = useState(false);
   const dropdownRef = useRef();
 
   // Close dropdown when clicking outside
@@ -27,28 +29,33 @@ export function DropdownWithSpinner({
   }, []);
 
   const handleSelect = (val) => {
-    setInternalValue(val);
-    setIsOpen(false);
     if (val === "__custom__") {
-      if (onChange) onChange(null);
+      setCustomActive(true);
+      setInternalValue("");
+      onChange?.(null);
     } else {
-      if (onChange) onChange(val);
+      setCustomActive(false);
+      setInternalValue(val);
+      onChange?.(val);
     }
+    setIsOpen(false);
   };
+
+  // Compute label for the box
+  const displayLabel = customActive
+    ? "Enter Custom Endpoint"
+    : internalValue
+    ? options.find((o) => o.value === internalValue)?.label || internalValue
+    : placeholder;
 
   return (
     <div className={`relative ${width}`} ref={dropdownRef}>
       {/* Selected value box */}
       <div
-        className="flex items-center justify-between border-2 border-slate-300 bg-slate-200 py-3 px-4 rounded shadow cursor-pointer hover:bg-slate-300 truncate"
+        className={`${slateDropdown} flex justify-between`}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="truncate">
-          {internalValue
-            ? options.find((o) => o.value === internalValue)?.label ||
-              internalValue
-            : placeholder}
-        </span>
+        <span className="truncate">{displayLabel}</span>
 
         <div className="flex items-center space-x-2">
           {loading && (
@@ -96,11 +103,11 @@ export function DropdownWithSpinner({
       )}
 
       {/* Custom input */}
-      {internalValue === "__custom__" && showCustomInput && (
+      {customActive && showCustomInput && (
         <input
           type="text"
           value={customValue}
-          onChange={(e) => onCustomChange && onCustomChange(e.target.value)}
+          onChange={(e) => onCustomChange?.(e.target.value)}
           placeholder="Enter custom endpoint URL"
           className="w-full mt-2 border-2 border-slate-300 bg-slate-200 py-2 px-4 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
         />

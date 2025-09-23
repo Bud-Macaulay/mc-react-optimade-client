@@ -2,9 +2,14 @@ import { useState, useEffect } from "react";
 import { OptimadeProviderDropdown } from "../OptimadeProviderDropdown";
 import { OptimadeFilters } from "../OptimadeFilters";
 
+import { slateDropdown } from "../../styles/dropdownStyles";
+
+import { JsonView } from "react-json-view-lite";
+import "react-json-view-lite/dist/index.css";
+
 import { StructureViewerWithDownload } from "../OptimadeStructureHandler";
 
-import { getProvidersList } from "../../api";
+import { getProvidersList, getStructures } from "../../api";
 
 import { FirstIcon, LastIcon, NextIcon, PreviousIcon } from "../common/Icons";
 
@@ -13,6 +18,9 @@ export function OptimadeClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedProviderUrl, setSelectedProviderUrl] = useState(null);
+
+  const [lastQuery, setLastQuery] = useState("");
+  const [lastProviderUrl, setLastProviderUrl] = useState(null);
 
   const [results, setResults] = useState(null);
   const [resultsLoading, setResultsLoading] = useState(false);
@@ -43,7 +51,11 @@ export function OptimadeClient() {
   }, []);
 
   // Handle new results
-  const handleResults = (data) => {
+  const handleResults = (
+    data,
+    query = currentFilter,
+    url = selectedProviderUrl
+  ) => {
     setResults(data);
     setSelectedResult(data?.data?.[0] || null);
 
@@ -52,7 +64,12 @@ export function OptimadeClient() {
 
     const total = meta.data_returned ?? 0;
     setTotalPages(Math.max(1, Math.ceil(total / pageSize)));
+
+    // Update last executed query and URL
+    setLastQuery(query);
+    setLastProviderUrl(url);
   };
+
   {
     /* ensure first result is selected on load */
   }
@@ -68,18 +85,14 @@ export function OptimadeClient() {
 
     setResultsLoading(true);
     try {
-      const offset = (pageNum - 1) * pageSize;
+      const data = await getStructures({
+        providerUrl: selectedProviderUrl,
+        filter: currentFilter,
+        page: pageNum,
+        pageSize,
+      });
 
-      const query = currentFilter
-        ? `?filter=${encodeURIComponent(currentFilter)}&page_offset=${offset}`
-        : `?page_offset=${offset}`;
-
-      const url = `${selectedProviderUrl}/v1/structures${query}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Failed: ${res.status}`);
-      const data = await res.json();
-
-      handleResults(data);
+      handleResults(data, currentFilter, selectedProviderUrl);
       setCurrentPage(pageNum);
     } catch (err) {
       console.error("Error fetching page:", err);
@@ -100,7 +113,7 @@ export function OptimadeClient() {
       </div>
 
       {/* Main content area: single column */}
-      <div className="flex flex-col items-center w-full max-w-4xl p-6 sm:p-8 space-y-8">
+      <div className="flex flex-col items-center w-full max-w-4xl">
         {/* Provider dropdown */}
         <div className="w-full">
           <OptimadeProviderDropdown
@@ -112,13 +125,72 @@ export function OptimadeClient() {
         </div>
 
         {/* Filters */}
-        <div className="w-full">
+        <div className="w-full pt-8">
           <OptimadeFilters
             providerUrl={selectedProviderUrl}
             onResults={handleResults}
             onFilterChange={setCurrentFilter}
           />
         </div>
+
+        <div className="border-t-2 pt-4 w-full text-center text-2xl">
+          Query Results
+        </div>
+
+        <div className="w-full text-center text-sm text-gray-600 mt-2">
+          <div>
+            <strong>Last Query:</strong> {lastQuery || "None"}
+          </div>
+          <div>
+            <strong>Last Provider URL:</strong>{" "}
+            {lastProviderUrl || "None selected"}
+          </div>
+        </div>
+
+        {/* Pagination TODO - sometimes data_returned is null and this whole block does not render
+        Should try and handle by in those cases keeping the forward backward button eitherway?
+        */}
+        {metaData.data_returned > 0 && (
+          <div className="pt-8">
+            <div className="flex flex-wrap justify-center items-center gap-2">
+              <span className="text-gray-700 text-sm text-center w-full md:w-auto">
+                {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Page ${currentPage} of ${totalPages}`}
+              </span>
+
+              <button
+                onClick={() => fetchPage(1)}
+                disabled={currentPage === 1 || resultsLoading}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
+              >
+                <FirstIcon />
+              </button>
+
+              <button
+                onClick={() => fetchPage(currentPage - 1)}
+                disabled={currentPage === 1 || resultsLoading}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
+              >
+                <PreviousIcon />
+              </button>
+
+              <button
+                onClick={() => fetchPage(currentPage + 1)}
+                disabled={currentPage === totalPages || resultsLoading}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
+              >
+                <NextIcon />
+              </button>
+
+              <button
+                onClick={() => fetchPage(totalPages)}
+                disabled={currentPage === totalPages || resultsLoading}
+                className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
+              >
+                <LastIcon />
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Results dropdown */}
         <div className="w-full">
@@ -133,7 +205,7 @@ export function OptimadeClient() {
             </div>
           ) : (
             <select
-              className="w-full border-2 border-slate-300 bg-slate-200 py-2 px-3 rounded shadow hover:cursor-pointer hover:bg-slate-300 disabled:cursor-not-allowed disabled:bg-gray-100"
+              className={`${slateDropdown} mb-4`}
               value={selectedResult?.id || ""}
               onChange={(e) => {
                 const chosen = results?.data?.find(
@@ -144,7 +216,7 @@ export function OptimadeClient() {
               disabled={!results?.data || results?.data.length === 0}
             >
               {!results?.data || results.data.length === 0 ? (
-                <option value="">No query applied</option>
+                <option value="">No results for current query</option>
               ) : (
                 results.data.map((result) => (
                   <option key={result.id} value={result.id}>
@@ -159,59 +231,21 @@ export function OptimadeClient() {
           )}
         </div>
 
-        {/* Pagination */}
-        {metaData.data_returned > 0 && (
-          <div className="flex flex-wrap justify-center items-center gap-2">
-            <span className="text-gray-700 text-sm text-center w-full md:w-auto">
-              {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Page ${currentPage} of ${totalPages}`}
-            </span>
-
-            <button
-              onClick={() => fetchPage(1)}
-              disabled={currentPage === 1 || resultsLoading}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
-            >
-              <FirstIcon />
-            </button>
-
-            <button
-              onClick={() => fetchPage(currentPage - 1)}
-              disabled={currentPage === 1 || resultsLoading}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
-            >
-              <PreviousIcon />
-            </button>
-
-            <button
-              onClick={() => fetchPage(currentPage + 1)}
-              disabled={currentPage === totalPages || resultsLoading}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
-            >
-              <NextIcon />
-            </button>
-
-            <button
-              onClick={() => fetchPage(totalPages)}
-              disabled={currentPage === totalPages || resultsLoading}
-              className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50 disabled:cursor-default"
-            >
-              <LastIcon />
-            </button>
-          </div>
-        )}
-
         {/* Selected result JSON */}
         {selectedResult && (
-          <div className="w-full flex flex-col space-y-6 items-center">
-            <div className="bg-white rounded shadow border p-4 w-full max-h-64 overflow-auto">
-              <h4 className="text-lg font-semibold mb-2">Selected Result</h4>
-              <pre className="text-sm text-gray-800">
-                {JSON.stringify(selectedResult, null, 2)}
-              </pre>
+          <div className="w-full flex flex-col space-y-4 items-center">
+            <div className="bg-slate-100 rounded shadow border p-4 w-full min-h-[12rem] max-h-96 overflow-auto text-xs">
+              <h4 className="text-lg mb-2">OPTIMADE API Response</h4>
+              <JsonView
+                data={selectedResult}
+                compactTopLevel={true}
+                shouldExpandNode={(level) => level < 2}
+                style={{ backgroundColor: "" }} // overide bg color to match parent div.
+              />
             </div>
 
             {/* Structure viewer */}
-            <div className="w-full">
+            <div className="w-full pb-8">
               <StructureViewerWithDownload OptimadeStructure={selectedResult} />
             </div>
           </div>

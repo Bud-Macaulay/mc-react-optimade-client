@@ -27,3 +27,67 @@ export async function getProvidersList(
     }
   }
 }
+
+// currently the backend for this often has CORS disabled...
+// We hack via using allorigins/cors anywhere.
+// This will likely spit an error if the number of requests is very high
+export async function getProviderLinks(baseUrl) {
+  const extractChildren = (json) =>
+    (json.data || []).filter((d) => d.attributes?.link_type === "child");
+
+  const urls = [
+    { name: "direct", url: `${baseUrl}/v1/links` },
+    {
+      name: "allorigins",
+      url: `https://api.allorigins.win/raw?url=${encodeURIComponent(
+        `${baseUrl}/v1/links`
+      )}`,
+    },
+    {
+      name: "cors-anywhere",
+      url: `https://cors-anywhere.com/${baseUrl}/v1/links`,
+    },
+  ];
+
+  for (const { url, name } of urls) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        continue;
+      }
+      const json = await res.json();
+      return { children: extractChildren(json), error: null };
+    } catch (err) {
+      // silent fallback, but could log in debug mode:
+      // console.warn(`${name} fetch failed:`, err);
+      continue;
+    }
+  }
+
+  // Only runs if *all* attempts failed
+  const err = new Error("All fetch methods failed");
+  return { children: [], error: err };
+}
+
+export async function getStructures({
+  providerUrl,
+  filter = "",
+  page = 1,
+  pageSize = 20,
+}) {
+  if (!providerUrl) throw new Error("Provider URL is required");
+
+  const offset = (page - 1) * pageSize;
+
+  const queryString = filter
+    ? `?filter=${encodeURIComponent(filter)}&page_offset=${offset}`
+    : `?page_offset=${offset}`;
+
+  const url = `${providerUrl}/v1/structures${queryString}`;
+
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to fetch structures: ${res.status}`);
+
+  const data = await res.json();
+  return data;
+}

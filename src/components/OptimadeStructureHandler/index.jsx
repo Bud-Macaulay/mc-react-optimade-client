@@ -3,6 +3,8 @@ import StructureVisualizer from "mc-react-structure-visualizer";
 import { StructureDownload } from "../common/StructureDownload";
 import { generateCIFfromMatrix } from "../../utils";
 
+import QEInputButton from "../QEInputButton";
+
 export function StructureViewerWithDownload({
   OptimadeStructure,
   className = "",
@@ -27,18 +29,23 @@ export function StructureViewerWithDownload({
   );
 
   return (
-    <div
-      className={`relative border rounded-lg w-full min-h-[450px] ${className}`}
-      style={{ height: "100%" }}
-    >
-      {/* Top-right download dropdown */}
-      <div className="absolute top-2 right-2 z-10">
-        <StructureDownload OptimadeStructure={OptimadeStructure} />
-      </div>
-
+    <div className={`relative rounded-lg w-full min-h-[450px] ${className}`}>
       {/* Visualizer fills container */}
       <div className="w-full h-[450px]">
         <StructureVisualizer key={cifText} cifText={cifText} />
+      </div>
+
+      {/* Centered QE Input button below visualizer */}
+      <div className="flex justify-center mt-4">
+        <QEInputButton
+          cifText={cifText}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
+        />
+      </div>
+
+      {/* Top-right download dropdown (optional) */}
+      <div className="absolute top-2 right-2 z-10">
+        <StructureDownload OptimadeStructure={OptimadeStructure} />
       </div>
     </div>
   );
