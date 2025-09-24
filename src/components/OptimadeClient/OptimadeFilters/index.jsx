@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import PTable from "./OptimadePTable";
 import { QueryTextBox } from "./OptimadeRawQuery";
-import RangeSlider from "../common/RangeSlider";
+import RangeSlider from "../../common/RangeSlider";
 import { buildQueryString } from "./OptimadeRawQuery/buildQueryString";
 
-export function OptimadeFilters({ providerUrl, onResults, onFilterChange }) {
+export default function OptimadeFilters({
+  providerUrl,
+  onResults,
+  onFilterChange,
+}) {
   const [numAtomsRange, setNumAtomsRange] = useState([1, 118]);
   const [numSitesRange, setNumSitesRange] = useState([1, 1000]);
   const [selectedElements, setSelectedElements] = useState({});
@@ -65,6 +69,32 @@ export function OptimadeFilters({ providerUrl, onResults, onFilterChange }) {
 
   return (
     <div className="space-y-2">
+      {/* Guided filters */}
+      <div className={manualMode ? "opacity-50 pointer-events-none" : ""}>
+        <PTable
+          selected={selectedElements}
+          onSelectionChange={(el) =>
+            setSelectedElements((prev) => ({ ...prev, ...el }))
+          }
+        />
+
+        <RangeSlider
+          title="Number of atoms"
+          value={numAtomsRange}
+          onChange={setNumAtomsRange}
+          min={1}
+          max={118}
+        />
+
+        <RangeSlider
+          title="Number of sites"
+          value={numSitesRange}
+          onChange={setNumSitesRange}
+          min={0}
+          max={1000}
+        />
+      </div>
+
       {/* Unlock query checkbox */}
       <div className="flex items-center space-x-2">
         <input
@@ -90,32 +120,6 @@ export function OptimadeFilters({ providerUrl, onResults, onFilterChange }) {
           onSubmit={handleSubmit}
           loading={loading}
           placeholder="Enter OPTIMADE filter…"
-        />
-      </div>
-
-      {/* Guided filters */}
-      <div className={manualMode ? "opacity-50 pointer-events-none" : ""}>
-        <PTable
-          selected={selectedElements}
-          onSelectionChange={(el) =>
-            setSelectedElements((prev) => ({ ...prev, ...el }))
-          }
-        />
-
-        <RangeSlider
-          title="Number of atoms"
-          value={numAtomsRange}
-          onChange={setNumAtomsRange}
-          min={1}
-          max={118}
-        />
-
-        <RangeSlider
-          title="Number of sites"
-          value={numSitesRange}
-          onChange={setNumSitesRange}
-          min={0}
-          max={1000}
         />
       </div>
     </div>

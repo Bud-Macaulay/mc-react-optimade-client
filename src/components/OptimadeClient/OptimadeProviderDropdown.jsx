@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { DropdownWithSpinner } from "../common/DropDownWIthSpinner";
 import { getProviderLinks } from "../../api";
 
-export function OptimadeProviderDropdown({
+export default function OptimadeProviderDropdown({
   providers = [],
   loading,
   error,

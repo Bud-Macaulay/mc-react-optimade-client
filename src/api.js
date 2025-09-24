@@ -16,7 +16,7 @@ export async function getProvidersList(
 
     // Fallback to local cachedProviders.json
     try {
-      const cached = await fetch("/cachedProviders.json");
+      const cached = await fetch("cachedProviders.json");
       if (!cached.ok) {
         throw new Error(`Fallback fetch failed! status: ${cached.status}`);
       }

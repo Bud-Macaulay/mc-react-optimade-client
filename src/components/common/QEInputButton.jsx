@@ -1,5 +1,3 @@
-import React from "react";
-
 // TODO - add a Development domain of the qeinputgenerator and a flag to switch.
 // Maybe extract this domain into the route of the project.
 export default function QEInputButton({ cifText }) {

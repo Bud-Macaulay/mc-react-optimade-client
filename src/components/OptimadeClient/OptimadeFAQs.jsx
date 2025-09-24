@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
-export function OptimadeFAQs() {
+export default function OptimadeFAQs() {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef(null);
   const [height, setHeight] = useState("0px");
