@@ -40,7 +40,7 @@ export function OptimadeClient() {
     loadProviders();
   }, []);
 
-  // Fetch results when queryUrl, filter, or page changes
+  // Fetch results whenever queryUrl, filter, or page changes
   const fetchResults = useCallback(async () => {
     if (!queryUrl) return;
 
@@ -58,24 +58,22 @@ export function OptimadeClient() {
       setTotalPages(Math.max(1, Math.ceil((meta.data_available ?? 0) / 20)));
 
       // Preserve current selection if possible
-      const preserved = data.data.find((r) => r.id === currentResult?.id);
-      setCurrentResult(preserved || data.data[0] || null);
+      setCurrentResult((prev) => {
+        if (!prev || !data.data.some((r) => r.id === prev.id)) {
+          return data.data[0] || null;
+        }
+        return prev;
+      });
     } catch (err) {
       console.error("Error fetching structures:", err);
     } finally {
       setLoading(false);
-      console.log(currentResult);
     }
   }, [queryUrl, currentFilter, currentPage]);
 
   useEffect(() => {
     fetchResults();
   }, [fetchResults]);
-
-  // Reset page when filter or provider changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [currentFilter, queryUrl]);
 
   return (
     <div className="min-h-screen flex flex-col items-center">
@@ -87,8 +85,11 @@ export function OptimadeClient() {
           <DatabaseSelector
             providers={providers}
             onQueryUrlChange={(url) => {
-              setQueryUrl(url);
-              setCurrentFilter(""); // reset filter when provider changes
+              // Only reset filter if provider actually changes
+              if (url !== queryUrl) {
+                setQueryUrl(url);
+                setCurrentPage(1);
+              }
             }}
           />
         </div>
@@ -144,22 +145,17 @@ export function OptimadeClient() {
             )}
 
             {!loading && results && currentResult && (
-              <div>
+              <div className="py-2 ">
                 <ResultsDropdown
-                  key={`rd-${currentPage}-${currentFilter}`}
                   results={results}
                   resultsLoading={loading}
                   selectedResult={currentResult}
                   setSelectedResult={setCurrentResult}
                 />
 
-                <ResultViewer
-                  key={`rv-${currentPage}-${currentFilter}`}
-                  selectedResult={currentResult}
-                />
+                <ResultViewer selectedResult={currentResult} />
 
                 <PaginationHandler
-                  key={`ph-${currentPage}-${currentFilter}`}
                   currentPage={currentPage}
                   totalPages={totalPages}
                   resultsLoading={loading}

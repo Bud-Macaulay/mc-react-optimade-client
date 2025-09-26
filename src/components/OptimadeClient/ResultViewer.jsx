@@ -49,7 +49,7 @@ export function ResultViewer({ selectedResult }) {
         </div>
       )}
 
-      <div className="mt-4">
+      <div className="mt-4 flex justify-center">
         <QEInputButton cifText={cifText} />
       </div>
     </div>
