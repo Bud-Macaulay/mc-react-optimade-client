@@ -35,15 +35,7 @@ export function StructureViewerWithDownload({
         <StructureVisualizer key={cifText} cifText={cifText} />
       </div>
 
-      {/* Centered QE Input button below visualizer */}
-      <div className="flex justify-center mt-4">
-        <QEInputButton
-          cifText={cifText}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none"
-        />
-      </div>
-
-      {/* Top-right download dropdown (optional) */}
+      {/* Top-right download dropdown*/}
       <div className="absolute top-2 right-2 z-10">
         <StructureDownload OptimadeStructure={OptimadeStructure} />
       </div>

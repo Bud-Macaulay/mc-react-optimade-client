@@ -4,20 +4,16 @@ import { QueryTextBox } from "./OptimadeRawQuery";
 import RangeSlider from "../../common/RangeSlider";
 import { buildQueryString } from "./OptimadeRawQuery/buildQueryString";
 
-export default function OptimadeFilters({
-  providerUrl,
-  onResults,
-  onFilterChange,
-}) {
+export default function OptimadeFilters({ initialFilter, onSubmit }) {
+  // Parent can optionally pass an initial filter string
   const [numAtomsRange, setNumAtomsRange] = useState([1, 118]);
   const [numSitesRange, setNumSitesRange] = useState([1, 1000]);
   const [selectedElements, setSelectedElements] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const [manualMode, setManualMode] = useState(false);
-  const [manualQuery, setManualQuery] = useState("");
+  const [manualQuery, setManualQuery] = useState(initialFilter || "");
 
-  // If not in manual mode, build the query automatically
+  // Regenerate query string based on ranges/elements
   const generatedQuery = buildQueryString(
     [1, 118],
     [1, 1000],
@@ -26,40 +22,15 @@ export default function OptimadeFilters({
     numSitesRange
   );
 
-  // The active query is either manual or generated
   const filterString = manualMode ? manualQuery : generatedQuery;
 
-  useEffect(() => {
-    onFilterChange?.(filterString);
-  }, [filterString]);
-
-  const handleSubmit = async () => {
-    if (!providerUrl) return alert("Please select a provider first!");
-
-    setLoading(true);
-    try {
-      const query = filterString
-        ? `?filter=${encodeURIComponent(filterString)}`
-        : "";
-      const url = `${providerUrl}/v1/structures${query}`;
-
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-      const data = await res.json();
-
-      onResults?.(data);
-    } catch (err) {
-      console.error("Error fetching structures:", err);
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = () => {
+    onSubmit(filterString);
   };
 
   const toggleManualMode = () => {
     setManualMode((prev) => !prev);
-
     if (!manualMode) {
-      // entering manual mode
       setManualQuery(generatedQuery);
       setSelectedElements({});
       setNumAtomsRange([1, 118]);
@@ -67,9 +38,13 @@ export default function OptimadeFilters({
     }
   };
 
+  // Optional: sync initial filter from parent if it changes
+  useEffect(() => {
+    if (initialFilter) setManualQuery(initialFilter);
+  }, [initialFilter]);
+
   return (
     <div className="space-y-2">
-      {/* Guided filters */}
       <div className={manualMode ? "opacity-50 pointer-events-none" : ""}>
         <PTable
           selected={selectedElements}
@@ -95,7 +70,6 @@ export default function OptimadeFilters({
         />
       </div>
 
-      {/* Unlock query checkbox */}
       <div className="flex items-center space-x-2">
         <input
           id="manual-mode-toggle"
@@ -112,13 +86,11 @@ export default function OptimadeFilters({
         </label>
       </div>
 
-      {/* Query box */}
       <div className="pb-4">
         <QueryTextBox
           value={filterString}
           onChange={manualMode ? setManualQuery : () => {}}
           onSubmit={handleSubmit}
-          loading={loading}
           placeholder="Enter OPTIMADE filter…"
         />
       </div>

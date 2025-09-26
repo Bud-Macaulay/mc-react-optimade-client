@@ -41,36 +41,55 @@ export default function PTable({
 
   return (
     <div className="w-full max-w-full mx-auto p-0">
-      <div
-        className="grid gap-0.5 sm:gap-1 w-full"
-        style={{ gridTemplateColumns: "repeat(18, minmax(0, 1fr))" }}
-      >
-        {elements.map((el) => (
-          <div
-            key={el.sym}
-            style={{ gridColumn: el.col, gridRow: el.row }}
-            className="relative w-full"
-          >
-            <div className="w-full aspect-square">
-              <button
-                onClick={() => toggle(el.sym)}
-                className={`flex flex-col justify-center items-center w-full h-full rounded-sm ${hoverClassName} ${getColorClass(
-                  el
-                )}`}
-              >
-                {/* Atomic number: hidden on very small screens, small on xs, bigger on sm+ */}
-                <span className="text-[0%] xs:text-[0%] sm:text-[0%] md:text-[80%] lg:text-[100%] text-gray-700 leading-tight">
-                  {el.num}
-                </span>
+      {/* Container that controls size queries below. */}
+      <div className="@container">
+        <div
+          className="grid @gap-0.5 @sm:gap-1 w-full"
+          style={{ gridTemplateColumns: "repeat(18, minmax(0, 1fr))" }}
+        >
+          {elements.map((el) => (
+            <div
+              key={el.sym}
+              style={{ gridColumn: el.col, gridRow: el.row }}
+              className="relative w-full"
+            >
+              <div className="w-full aspect-square">
+                <button
+                  onClick={() => toggle(el.sym)}
+                  className={`flex flex-col justify-center items-center w-full h-full rounded-sm ${hoverClassName} ${getColorClass(
+                    el
+                  )}`}
+                >
+                  {/* Atomic number */}
+                  <span
+                    className="
+                      text-[0px] opacity-0
+                      @sm:text-[0.3rem] @sm:opacity-100
+                      @md:text-[0.5rem]
+                      @lg:text-[0.7rem]
+                      text-gray-700 leading-tight
+                    "
+                  >
+                    {el.num}
+                  </span>
 
-                {/* Symbol: smaller on very tiny, slightly bigger on xs, full on sm+ */}
-                <span className="text-[55%] xs:text-[100%] sm:text-[120%] md:text-[120%] lg:text-[125%] font-medium leading-none">
-                  {el.sym}
-                </span>
-              </button>
+                  {/* Symbol */}
+                  <span
+                    className="
+                      text-[0.55rem]
+                      font-medium leading-none
+                    "
+                    style={{
+                      fontSize: "clamp(0.55rem, 2.5vw, 1.25rem)", // min 0.55rem, scale, max 1.25rem
+                    }}
+                  >
+                    {el.sym}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

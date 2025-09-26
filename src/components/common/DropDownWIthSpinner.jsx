@@ -81,11 +81,11 @@ export function DropdownWithSpinner({
 
       {/* Dropdown menu */}
       {isOpen && (
-        <ul className="absolute left-0 right-0 max-h-60 overflow-auto border border-slate-300 bg-white rounded shadow mt-1 z-50">
+        <ul className="absolute left-0 right-0 max-h-120 overflow-auto border border-slate-300 bg-white rounded shadow mt-1 z-50">
           {options.map((opt) => (
             <li
               key={opt.value}
-              className="truncate px-4 py-2 hover:bg-blue-100 cursor-pointer"
+              className="truncate px-3 py-1 hover:bg-blue-100 cursor-pointer"
               onClick={() => handleSelect(opt.value)}
             >
               {opt.label}
@@ -93,7 +93,7 @@ export function DropdownWithSpinner({
           ))}
           {showCustomInput && (
             <li
-              className="truncate px-4 py-2 hover:bg-blue-100 cursor-pointer"
+              className="truncate px-4 py-1 hover:bg-blue-100 cursor-pointer"
               onClick={() => handleSelect("__custom__")}
             >
               Enter Custom Endpoint

@@ -8,5 +8,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/container-queries")], // needed for container media queries
 };
