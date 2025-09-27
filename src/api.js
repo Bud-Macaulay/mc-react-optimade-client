@@ -143,6 +143,7 @@ export async function getStructures({
 
   for (const url of endpoints) {
     try {
+      console.log("URL", url);
       const res = await fetch(url);
       if (!res.ok) continue;
 

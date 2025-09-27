@@ -55,17 +55,12 @@ export function OptimadeClient() {
 
       const meta = data?.meta ?? { data_returned: 0, data_available: 0 };
       setMetaData(meta);
-      setTotalPages(Math.max(1, Math.ceil((meta.data_available ?? 0) / 20)));
+      setTotalPages(Math.max(1, Math.ceil((meta.data_returned ?? 0) / 20)));
 
-      // Preserve current selection if possible
-      setCurrentResult((prev) => {
-        if (!prev || !data.data.some((r) => r.id === prev.id)) {
-          return data.data[0] || null;
-        }
-        return prev;
-      });
+      setCurrentResult(data?.data[0] || null);
     } catch (err) {
       console.error("Error fetching structures:", err);
+      setCurrentResult(null);
     } finally {
       setLoading(false);
     }
@@ -135,15 +130,43 @@ export function OptimadeClient() {
           )}
         </AnimatePresence>
 
-        {/* Results */}
+        {/* The results are only attempted to render if there is a valid query URL */}
         {queryUrl && (
           <div className="px-2 w-full">
+            {/* Loading spinner haphazardly dumped in the middle of the section */}
             {loading && (
               <div className="flex justify-center items-center h-[800px]">
                 <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
               </div>
             )}
 
+            <div className="border-b-2 pt-8"></div>
+
+            {/* Implies zero results - either through server/syntax or filters too tight */}
+
+            {!loading && !currentResult && currentFilter && (
+              <div className="my-4 w-full rounded bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-3 text-sm">
+                <strong className="font-semibold">Warning: </strong>
+                No results returned for this query. The server may not be
+                responsive Try to relax the filters, check the syntax of the
+                query or the server may be unresponsive.
+                <p className="text-xs text-center pt-2">
+                  Attempted Query:{" "}
+                  <a
+                    href={`${queryUrl}/structures?filter=${encodeURIComponent(
+                      currentFilter
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-blue-700 hover:text-blue-900 break-all"
+                  >
+                    {`${queryUrl}/structures?filter=${currentFilter}`}
+                  </a>
+                </p>
+              </div>
+            )}
+
+            {/* Implies success and */}
             {!loading && results && currentResult && (
               <div className="py-2 ">
                 <ResultsDropdown
