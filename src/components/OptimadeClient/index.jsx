@@ -140,7 +140,7 @@ export function OptimadeClient() {
               </div>
             )}
 
-            <div className="border-b-2 pt-8"></div>
+            <div className="border-b-2 border-slate-800 pt-8"></div>
 
             {/* Implies zero results - either through server/syntax or filters too tight */}
 

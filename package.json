@@ -13,6 +13,7 @@
   "dependencies": {
     "framer-motion": "^12.23.19",
     "gl-matrix": "^3.4.4",
+    "lodash.debounce": "^4.0.8",
     "mc-react-structure-visualizer": "^0.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
