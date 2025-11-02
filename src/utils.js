@@ -77,6 +77,8 @@ _atom_site_fract_z
     )} ${site.y.toFixed(6)} ${site.z.toFixed(6)}\n`;
   });
 
+  console.log("cif", cif);
+
   return cif;
 }
 

@@ -71,7 +71,7 @@ export function OptimadeClient() {
   }, [fetchResults]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center">
+    <div className="min-h-screen flex flex-col items-center px-0.5">
       <OptimadeHeader />
 
       <div className="flex flex-col items-center w-full max-w-3xl">

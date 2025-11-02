@@ -10,15 +10,19 @@ export function StructureViewerWithDownload({
   className = "",
 }) {
   const lattice = OptimadeStructure.attributes.lattice_vectors;
-  const sitesRaw = OptimadeStructure.attributes.cartesian_site_positions;
+  const sitesRaw =
+    OptimadeStructure?.attributes?.cartesian_site_positions || null;
   const species = OptimadeStructure.attributes.species_at_sites;
 
-  const sites = sitesRaw.map((pos, i) => ({
-    element: species[i],
-    x: pos[0],
-    y: pos[1],
-    z: pos[2],
-  }));
+  let sites = [];
+  if (sitesRaw) {
+    sites = sitesRaw.map((pos, i) => ({
+      element: species[i],
+      x: pos[0],
+      y: pos[1],
+      z: pos[2],
+    }));
+  }
 
   const structureData = { lattice, sites };
 
@@ -27,6 +31,18 @@ export function StructureViewerWithDownload({
     () => generateCIFfromMatrix(structureData),
     [structureData]
   );
+
+  // TODO - add error sign.
+  if (!sitesRaw)
+    return (
+      <div
+        className={`relative rounded-sm w-full px-20 min-h-[450px] ${className} flex items-center justify-center border-1 border-slate-500`}
+      >
+        <div className="text-red-500 text-center">
+          Malformed data found - skipping the crystal structure rendering.
+        </div>
+      </div>
+    );
 
   return (
     <div className={`relative rounded-lg w-full min-h-[450px] ${className}`}>

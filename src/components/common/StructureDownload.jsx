@@ -37,7 +37,8 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
   const downloadFormats = download_formats || defaultFormats;
 
   const lattice = OptimadeStructure.attributes.lattice_vectors;
-  const sitesRaw = OptimadeStructure.attributes.cartesian_site_positions;
+  const sitesRaw =
+    OptimadeStructure?.attributes?.cartesian_site_positions || [];
   const species = OptimadeStructure.attributes.species_at_sites;
 
   const sites = sitesRaw.map((pos, i) => ({
@@ -74,7 +75,7 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
     setOpen(false);
   };
 
-  // === Cleaner outside click handler ===
+  // === outside click handler ===
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -93,19 +94,19 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
     <div className="relative inline-block" ref={containerRef}>
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-1 px-2 py-2 text-sm bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 cursor-pointer"
+        className="flex items-center gap-1 px-2 py-2 text-sm bg-blue-600 text-white rounded-sm hover:bg-blue-700 cursor-pointer"
         title="Download"
       >
         <DownloadIcon />
       </div>
       {open && (
-        <div className="absolute right-0 mt-1 bg-white rounded-md shadow-md ring-2 ring-black ring-opacity-5 z-10">
+        <div className="absolute right-0 mt-1 bg-white rounded-sm shadow-sm ring-1 ring-slate-700 z-100">
           <ul className="list-none p-0 m-0">
             {downloadFormats.map(({ format, label }) => (
               <li key={format}>
                 <button
                   onClick={() => handleDownload(format)}
-                  className="block w-full text-left px-3 py-1.5 text-sm text-black hover:bg-gray-100"
+                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-800 hover:bg-gray-100"
                 >
                   {label}
                 </button>

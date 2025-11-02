@@ -92,7 +92,7 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
                 Select a subdatabase…
               </option>
               {childEntries.map((c) => (
-                <option key={c.id} value={c.base_url}>
+                <option key={c.id ?? c.base_url ?? c.name} value={c.base_url}>
                   {c.name}
                 </option>
               ))}

@@ -11,7 +11,7 @@ export function PaginationHandler({
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-1 mt-4">
-      <span className="text-gray-700 text-sm text-center w-full md:w-auto">
+      <span className="text-slate-700 text-sm text-center w-full md:w-auto">
         {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Page ${currentPage} of ${totalPages}`}
       </span>
 
