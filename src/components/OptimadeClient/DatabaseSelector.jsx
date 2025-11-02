@@ -50,7 +50,7 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
   }, [selectedProvider, childSelected, customUrl, onQueryUrlChange]);
 
   return (
-    <div className="flex flex-col items-start space-y-2 w-full max-w-lg">
+    <div className="flex flex-col items-start space-y-2 w-full sm:max-w-xs md:max-w-sm lg:max-w-md">
       <select
         className={slateDropdown}
         value={selectedProvider}
@@ -61,7 +61,7 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
         </option>
         {providers.map((p) => (
           <option
-            key={p.attributes?.id || p.id}
+            key={p.attributes?.id ?? p.id ?? p.attributes?.base_url}
             value={p.attributes?.base_url || ""}
           >
             {p.attributes?.name || p.id}
@@ -74,12 +74,12 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
         <input
           type="text"
           placeholder="Enter custom URL"
-          className="min-w-96"
+          className="w-[calc(100%-4px)] mx-auto ring-[1px] ring-slate-300 rounded-sm px-2 py-1"
           onChange={(e) => handleCustomChange(e.target.value)}
         />
       ) : (
         <select
-          className={slateDropdown}
+          className={`${slateDropdown}`}
           value={childSelected}
           onChange={(e) => setChildSelected(e.target.value)}
           disabled={loadingChildren}
