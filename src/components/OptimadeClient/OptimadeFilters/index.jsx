@@ -54,7 +54,7 @@ export default function OptimadeFilters({ initialFilter, onSubmit }) {
         />
 
         <RangeSlider
-          title="Number of atoms"
+          title="Number of elements"
           value={numAtomsRange}
           onChange={setNumAtomsRange}
           min={1}
