@@ -37,7 +37,10 @@ export function StructureViewerWithDownload({
         className={`relative rounded-sm w-full px-20 min-h-[450px] ${className} flex items-center justify-center border-1 border-slate-500`}
       >
         <div className="text-red-500 text-center">
-          Malformed data found - skipping the crystal structure rendering.
+          <p>Unexpected or malformed data format found. </p>
+          <p>--</p>
+
+          <p>Crystal structure rendering skipped...</p>
         </div>
       </div>
     );

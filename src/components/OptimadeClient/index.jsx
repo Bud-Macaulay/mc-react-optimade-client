@@ -9,7 +9,7 @@ import { ProviderInfo } from "./ProviderInfo";
 import { PaginationHandler } from "./PaginationHandler";
 import { AnimatePresence, motion } from "framer-motion";
 
-export function OptimadeClient() {
+export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [providers, setProviders] = useState([]);
   const [queryUrl, setQueryUrl] = useState("");
   const [currentFilter, setCurrentFilter] = useState("");
@@ -28,10 +28,7 @@ export function OptimadeClient() {
   useEffect(() => {
     const loadProviders = async () => {
       try {
-        const provObj = await getProvidersList(undefined, [
-          "exmpl",
-          "matcloud",
-        ]);
+        const provObj = await getProvidersList(undefined, hideProviderList);
         setProviders(provObj.data);
       } catch (err) {
         console.error("Error fetching providers:", err);

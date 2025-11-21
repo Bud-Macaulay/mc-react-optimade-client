@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 
+// unused for now.
 export default function OptimadeFAQs() {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef(null);

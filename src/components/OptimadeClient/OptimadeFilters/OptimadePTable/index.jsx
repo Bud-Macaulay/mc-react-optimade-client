@@ -22,7 +22,7 @@ export default function PTable({
   selectedClassName = "bg-green-400 border border-green-700 text-white scale-105",
   deselectedClassName = "bg-red-400 border border-red-700 text-white scale-105",
   defaultBorderClassName = "border border-slate-700",
-  hoverClassName = "transform transition-transform duration-100 hover:scale-105 hover:z-10",
+  hoverClassName = "transform transition-transform duration-100 hover:scale-105 hover:z-10 hover:cursor-pointer",
 }) {
   const toggle = (sym) => {
     if (!onSelectionChange) return;
