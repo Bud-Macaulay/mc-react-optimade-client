@@ -45,7 +45,7 @@ export default function QEInputButton({ cifText }) {
       onClick={handleClick}
       disabled={!cifText}
       title="Use the chosen structure in the QE Input Generator Tool"
-      className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400"
+      className="px-2 py-1 md:px-4 md:py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 text-sm md:text-base"
     >
       Use in QE Input Generator
     </button>

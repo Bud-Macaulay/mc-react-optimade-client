@@ -106,7 +106,7 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
               <li key={format}>
                 <button
                   onClick={() => handleDownload(format)}
-                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-800 hover:bg-gray-100"
+                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-800 hover:bg-gray-100 hover:cursor-pointer"
                 >
                   {label}
                 </button>

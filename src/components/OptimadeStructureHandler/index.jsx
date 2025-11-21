@@ -3,8 +3,6 @@ import StructureVisualizer from "mc-react-structure-visualizer";
 import { StructureDownload } from "../common/StructureDownload";
 import { generateCIFfromMatrix } from "../../utils";
 
-import QEInputButton from "../common/QEInputButton";
-
 export function StructureViewerWithDownload({
   OptimadeStructure,
   className = "",

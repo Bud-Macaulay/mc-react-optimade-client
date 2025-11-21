@@ -90,7 +90,7 @@ export function OptimadeClient() {
         </div>
 
         {/* Query URL display */}
-        <div className="pt-2">
+        <div className="pt-2 text-sm md:text-base">
           Query Url:{" "}
           {queryUrl ? (
             <a
@@ -168,7 +168,7 @@ export function OptimadeClient() {
 
             {/* Implies success and */}
             {!loading && results && currentResult && (
-              <div className="py-2 ">
+              <div className="py-1 md:py-2 ">
                 <ResultsDropdown
                   results={results}
                   resultsLoading={loading}

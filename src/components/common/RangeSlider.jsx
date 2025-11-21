@@ -3,7 +3,7 @@ import React from "react";
 
 export default function RangeSlider({ title, value, onChange, min, max }) {
   return (
-    <div className="my-4">
+    <div className="my-4 text-sm md:text-base">
       <label className="block font mb-1">{title}</label>
       <Range
         step={1}
@@ -30,7 +30,7 @@ export default function RangeSlider({ title, value, onChange, min, max }) {
           />
         )}
       />
-      <div className="flex justify-between text-sm mt-1.5">
+      <div className="flex justify-between text-xs md:text-sm pt-2">
         <span>{value[0]}</span>
         <span>{value[1]}</span>
       </div>

@@ -27,18 +27,20 @@ export function ResultViewer({ selectedResult }) {
   );
 
   return (
-    <div className="w-full mt-4 flex flex-col">
+    <div className="w-full mt-2 md:mt-4 flex flex-col">
       {/* Result details */}
       {selectedResult && (
-        <div className="@container w-full flex flex-col md:flex-row gap-4">
+        <div className="@container w-full flex flex-col md:flex-row gap-2 md:gap-4">
           <div className="w-full md:w-1/2">
             <StructureViewerWithDownload
               OptimadeStructure={selectedResult}
               cifText={cifText}
             />
           </div>
-          <div className="w-full md:w-1/2 bg-slate-100 rounded shadow border p-2 min-h-[12rem] md:h-[450px] h-[200px] overflow-auto text-xs">
-            <p className="text-[14px] pb-2">OPTIMADE JSON RESPONSE</p>
+          <div className="w-full md:w-1/2 bg-slate-100 rounded shadow border p-2 min-h-48 md:h-[450px] h-[200px] overflow-auto text-xs">
+            <p className="text-sm md:text-md pb-1 md:pb-2">
+              OPTIMADE JSON RESPONSE
+            </p>
             <JsonView
               data={selectedResult}
               compactTopLevel
@@ -49,7 +51,7 @@ export function ResultViewer({ selectedResult }) {
         </div>
       )}
 
-      <div className="mt-4 flex justify-center">
+      <div className="mt-2 md:mt-4 flex justify-center">
         <QEInputButton cifText={cifText} />
       </div>
     </div>

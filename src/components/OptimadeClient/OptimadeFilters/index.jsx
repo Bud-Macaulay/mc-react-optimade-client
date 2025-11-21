@@ -86,7 +86,7 @@ export default function OptimadeFilters({ initialFilter, onSubmit }) {
         </label>
       </div>
 
-      <div className="pb-4">
+      <div className="pb-4 text-sm md:text-base">
         <QueryTextBox
           value={filterString}
           onChange={manualMode ? setManualQuery : () => {}}
