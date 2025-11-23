@@ -1,4 +1,6 @@
-import { corsProxies } from "./corsProxies";
+import { corsProxies } from "./corsProxies.js";
+
+import { elements } from "./components/OptimadeClient/OptimadeFilters/OptimadePTable/elements.js";
 
 // --- Providers list ---
 export async function getProvidersList(
@@ -46,7 +48,6 @@ export async function getProviderLinks(baseUrl) {
 
   for (const { url, name } of attempts) {
     try {
-      console.log(`Trying ${name}: ${url}`);
       const res = await fetch(url);
       if (!res.ok) continue;
       const json = await res.json();
@@ -71,7 +72,6 @@ export async function getInfo({ providerUrl }) {
 
   for (const { url, name } of attempts) {
     try {
-      console.log(`Trying ${name}: ${url}`);
       const res = await fetch(url);
       if (!res.ok) continue;
 
@@ -115,7 +115,6 @@ export async function getStructures({
 
   for (const { url, name } of attempts) {
     try {
-      console.log(`Trying ${name}: ${url}`);
       const res = await fetch(url);
       if (!res.ok) continue;
       return await res.json();
@@ -125,4 +124,96 @@ export async function getStructures({
   }
 
   throw new Error("All fetch attempts failed for getStructures");
+}
+
+// very messy divide and conquer strategy for returning the elements that exist in the PT.
+// this strategy is very bad for very broad providers...
+// Divide-and-conquer strategy for determining elements present in the provider
+export async function getPTablePopulation({
+  providerUrl,
+  batchSize = 1,
+  existingCache = {},
+}) {
+  const presentElements = new Set();
+  const missingElements = [];
+
+  let totalRequests = 0;
+  let totalElementsQueried = 0;
+  const startTime = performance.now();
+
+  // Sort elements by atomic number: lightest first
+  const sortedElements = [...elements].sort((a, b) => a.num - b.num);
+
+  // Determine which elements we actually need to query
+  for (const el of sortedElements) {
+    if (existingCache[el.sym] === true) {
+      presentElements.add(el.sym);
+    } else {
+      missingElements.push(el);
+    }
+  }
+
+  async function queryBatch(batch) {
+    if (batch.length === 0) return false;
+
+    const syms = batch.map((b) => b.sym);
+    const filter = `elements HAS ANY "${syms.join('", "')}"`;
+    const queryString = `?filter=${encodeURIComponent(filter)}`;
+    const url = `${providerUrl}/v1/structures${queryString}`;
+
+    totalRequests++;
+    totalElementsQueried += batch.length;
+
+    // console.log(`Querying batch: [${syms.join(", ")}]`);
+
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return false;
+      const json = await res.json();
+      return json.data && json.data.length > 0;
+    } catch (err) {
+      console.warn(
+        `Batch query failed on ${providerUrl}: [${syms.join(", ")}]`
+      );
+      return false;
+    }
+  }
+
+  async function checkBatch(batch) {
+    if (batch.length === 0) return;
+
+    const hasData = await queryBatch(batch);
+
+    if (!hasData) return; // nothing present, skip subdividing
+    if (batch.length === 1) {
+      presentElements.add(batch[0].sym);
+      return;
+    }
+
+    const mid = Math.floor(batch.length / 2);
+    await checkBatch(batch.slice(0, mid));
+    await checkBatch(batch.slice(mid));
+  }
+
+  // Initial batching
+  for (let i = 0; i < missingElements.length; i += batchSize) {
+    const batch = missingElements.slice(i, i + batchSize);
+    await checkBatch(batch);
+  }
+
+  const endTime = performance.now();
+  console.log(
+    `\n====== URL ${providerUrl} finished batch searches. ======\nTotal elements queried: ${totalElementsQueried} \nTotal requests made: ${totalRequests}\nTotal time elapsed: ${(
+      (endTime - startTime) /
+      1000
+    ).toFixed(
+      2
+    )} seconds \n====== URL ${providerUrl}} finished batch searches. ======\n`
+  );
+
+  // Return result as a map of element symbol -> present
+  return elements.reduce((acc, e) => {
+    acc[e.sym] = presentElements.has(e.sym);
+    return acc;
+  }, {});
 }

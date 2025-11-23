@@ -4,7 +4,7 @@ import { QueryTextBox } from "./OptimadeRawQuery";
 import RangeSlider from "../../common/RangeSlider";
 import { buildQueryString } from "./OptimadeRawQuery/buildQueryString";
 
-export default function OptimadeFilters({ initialFilter, onSubmit }) {
+export default function OptimadeFilters({ queryUrl, initialFilter, onSubmit }) {
   // Parent can optionally pass an initial filter string
   const [numAtomsRange, setNumAtomsRange] = useState([1, 118]);
   const [numSitesRange, setNumSitesRange] = useState([1, 1000]);
@@ -47,6 +47,7 @@ export default function OptimadeFilters({ initialFilter, onSubmit }) {
     <div className="space-y-2">
       <div className={manualMode ? "opacity-50 pointer-events-none" : ""}>
         <PTable
+          providerUrl={queryUrl}
           selected={selectedElements}
           onSelectionChange={(el) =>
             setSelectedElements((prev) => ({ ...prev, ...el }))

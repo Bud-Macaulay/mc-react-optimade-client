@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { getProvidersList, getStructures } from "../../api";
+import {
+  getProvidersList,
+  getStructures,
+  getPTablePopulation,
+} from "../../api";
 import OptimadeHeader from "./OptimadeHeader";
 import { DatabaseSelector } from "./DatabaseSelector";
 import OptimadeFilters from "./OptimadeFilters";
@@ -15,6 +19,8 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [currentFilter, setCurrentFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentResult, setCurrentResult] = useState(null);
+
+  const [pTablePop, setPTablePop] = useState(null);
 
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -118,6 +124,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               className="w-full p-4 border rounded bg-slate-50"
             >
               <OptimadeFilters
+                queryUrl={queryUrl}
                 onSubmit={(filter) => {
                   setCurrentFilter(filter);
                   setCurrentPage(1); // reset page when filter changes
@@ -145,8 +152,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               <div className="my-4 w-full rounded bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-3 text-sm">
                 <strong className="font-semibold">Warning: </strong>
                 No results returned for this query. The server may not be
-                responsive Try to relax the filters, check the syntax of the
-                query or the server may be unresponsive.
+                responsive or try to relax the filters.
                 <p className="text-xs text-center pt-2">
                   Attempted Query:{" "}
                   <a
