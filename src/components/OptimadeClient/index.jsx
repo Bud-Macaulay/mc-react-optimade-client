@@ -185,22 +185,28 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               {/* Implies success and */}
               {!loading && results && currentResult && (
                 <div className="py-1 md:py-2 ">
-                  <ResultsDropdown
-                    results={results}
-                    resultsLoading={loading}
-                    selectedResult={currentResult}
-                    setSelectedResult={setCurrentResult}
-                  />
+                  <div className="flex items-end gap-4">
+                    <div className="flex-1">
+                      <ResultsDropdown
+                        results={results}
+                        resultsLoading={loading}
+                        selectedResult={currentResult}
+                        setSelectedResult={setCurrentResult}
+                      />
+                    </div>
+
+                    <div>
+                      <PaginationHandler
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        resultsLoading={loading}
+                        metaData={metaData}
+                        onPageChange={setCurrentPage}
+                      />
+                    </div>
+                  </div>
 
                   <ResultViewer selectedResult={currentResult} />
-
-                  <PaginationHandler
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    resultsLoading={loading}
-                    metaData={metaData}
-                    onPageChange={setCurrentPage}
-                  />
                 </div>
               )}
             </div>

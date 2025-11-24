@@ -13,9 +13,9 @@ export function PaginationHandler({
     "px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 hover:cursor-pointer disabled:opacity-50 disabled:cursor-default";
 
   return (
-    <div className="flex flex-wrap justify-center items-center gap-1 mt-4">
+    <div className="flex flex-wrap justify-center items-center gap-1">
       <span className="text-slate-700 text-sm text-center w-full md:w-auto">
-        {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Page ${currentPage} of ${totalPages}`}
+        {`Filtered results: ${metaData.data_returned} of ${metaData.data_available} | Showing page ${currentPage} of ${totalPages}`}
       </span>
 
       <button

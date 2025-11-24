@@ -7,7 +7,7 @@ export default function ResultsDropdown({
   setSelectedResult,
 }) {
   return (
-    <div className="w-full mb-4 relative">
+    <div className="max-w-md">
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Select a result
       </label>
