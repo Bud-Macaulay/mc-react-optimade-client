@@ -69,7 +69,7 @@ export default function PTable({
 
     const updatedElements = allElements.map((el) => ({
       ...el,
-      present: ptable[el.sym] ?? false,
+      present: el.sym in ptable ? ptable[el.sym] : undefined,
     }));
 
     setElements(updatedElements);
@@ -87,9 +87,10 @@ export default function PTable({
 
     if (state === 1) return selectedClassName;
     if (state === 2) return deselectedClassName;
-    return `${baseColor} ${defaultBorderClassName} ${
-      !el.present ? "opacity-30" : ""
-    }`;
+
+    const opacityClass = el.present === false ? "opacity-30" : "";
+
+    return `${baseColor} ${defaultBorderClassName} ${opacityClass}`;
   };
 
   return (
@@ -97,7 +98,7 @@ export default function PTable({
       <div className="@container">
         <div className="flex justify-end pb-2 pr-1.5">
           <HelpIcon
-            popover={`Prefiltering has been performed on all OPTIMADE providers (greying out of structures). This was last performed on ${lastModified}.`}
+            popover={`All OPTIMADE provider databases have been prefiltered, with unavailable structures greyed out. Last updated: ${lastModified}.`}
             placement="left"
             color="rgb(40,40,40)"
           />
