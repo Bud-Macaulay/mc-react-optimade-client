@@ -10,17 +10,22 @@ export function radToDeg(rad) {
 }
 
 export function cartesianToFractional(cartSites, latticeMatrix) {
-  // latticeMatrix: [aVec, bVec, cVec]
+  // Expect latticeMatrix = [aVec, bVec, cVec] where each Vec = [x,y,z]
+  const a = latticeMatrix[0];
+  const b = latticeMatrix[1];
+  const c = latticeMatrix[2];
+
+  // Build mat3 with columns = aVec, bVec, cVec (column-major order)
   const L = mat3.fromValues(
-    latticeMatrix[0][0],
-    latticeMatrix[1][0],
-    latticeMatrix[2][0],
-    latticeMatrix[0][1],
-    latticeMatrix[1][1],
-    latticeMatrix[2][1],
-    latticeMatrix[0][2],
-    latticeMatrix[1][2],
-    latticeMatrix[2][2]
+    a[0],
+    a[1],
+    a[2],
+    b[0],
+    b[1],
+    b[2],
+    c[0],
+    c[1],
+    c[2]
   );
 
   const invL = mat3.create();
@@ -42,9 +47,13 @@ export function latticeMatrixToCIFParams(L) {
   const b = vecLength(bVec);
   const c = vecLength(cVec);
 
-  const alpha = radToDeg(Math.acos(vec3.dot(bVec, cVec) / (b * c)));
-  const beta = radToDeg(Math.acos(vec3.dot(aVec, cVec) / (a * c)));
-  const gamma = radToDeg(Math.acos(vec3.dot(aVec, bVec) / (a * b)));
+  const cosAlpha = Math.min(1, Math.max(-1, vec3.dot(bVec, cVec) / (b * c)));
+  const cosBeta = Math.min(1, Math.max(-1, vec3.dot(aVec, cVec) / (a * c)));
+  const cosGamma = Math.min(1, Math.max(-1, vec3.dot(aVec, bVec) / (a * b)));
+
+  const alpha = radToDeg(Math.acos(cosAlpha));
+  const beta = radToDeg(Math.acos(cosBeta));
+  const gamma = radToDeg(Math.acos(cosGamma));
 
   return { a, b, c, alpha, beta, gamma };
 }
