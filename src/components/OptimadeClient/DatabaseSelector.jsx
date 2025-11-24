@@ -10,7 +10,8 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
   const [customUrl, setCustomUrl] = useState("");
   const [loadingChildren, setLoadingChildren] = useState(false);
 
-  const handleCustomChange = debounce((val) => setCustomUrl(val), 300);
+  // 700 ms between no typing before setting url.
+  const handleCustomChange = debounce((val) => setCustomUrl(val), 700);
 
   useEffect(() => {
     if (!selectedProvider || selectedProvider === "__custom__") {
