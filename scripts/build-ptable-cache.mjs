@@ -7,7 +7,7 @@ import {
 } from "../src/api.js";
 
 const OUTPUT_PATH = path.resolve("./public/cachedPTable.json");
-const MAX_CONCURRENT_PROVIDERS = 1;
+const MAX_CONCURRENT_PROVIDERS = 8;
 
 // Load previous cache
 function loadCache() {
