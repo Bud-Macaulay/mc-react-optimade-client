@@ -4,3 +4,13 @@
   @screen xs {
   }
 }
+
+@layer base {
+  .mc-navbrand img {
+    max-height: 50px;
+  }
+}
+
+body {
+  background-color: aliceblue;
+}
