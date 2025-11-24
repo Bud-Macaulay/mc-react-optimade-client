@@ -34,7 +34,7 @@ export function StructureViewerWithDownload({
   if (!sitesRaw)
     return (
       <div
-        className={`relative rounded-sm w-full px-20 min-h-[450px] ${className} flex items-center justify-center border-1 border-slate-500`}
+        className={`relative rounded-sm w-full px-20 min-h-[450px] ${className} flex items-center justify-center border border-slate-500`}
       >
         <div className="text-red-500 text-center">
           <p>Unexpected or malformed data format found. </p>

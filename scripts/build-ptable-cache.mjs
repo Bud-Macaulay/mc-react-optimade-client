@@ -71,7 +71,7 @@ async function processProvider(provider, prevCache, resultMap) {
       continue;
     }
 
-    resultMap[url] = ptable;
+    resultMap[url] = { ptable, generatedAt: new Date().toISOString() };
     saveCache(resultMap);
   }
 }

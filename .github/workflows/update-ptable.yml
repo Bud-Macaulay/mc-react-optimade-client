@@ -1,0 +1,39 @@
+name: Update Cached Periodic Table
+
+on:
+  schedule:
+    - cron: "0 3 * * 0" # every Sunday at 03:00 UTC
+  workflow_dispatch: # allow manual triggering
+
+jobs:
+  update-cache:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # required for committing
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Run cache generation script
+        run: node scripts/build-ptable-cache.mjs
+
+      - name: Commit and push if changed
+        run: |
+          if [[ -n "$(git status --porcelain public/cachedPTable.json)" ]]; then
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
+            git add public/cachedPTable.json
+            git commit -m "Update cached PTable ($(date -u +"%Y-%m-%d"))"
+            git push
+          else
+            echo "No changes detected, nothing to commit."
+          fi
