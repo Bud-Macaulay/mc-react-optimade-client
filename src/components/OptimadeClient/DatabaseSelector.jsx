@@ -26,7 +26,13 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
         const { children } = await getProviderLinks(selectedProvider);
         const entries = children.map((c) => c.attributes || {});
         setChildEntries(entries);
-        setChildSelected("");
+
+        if (entries.length === 1) {
+          // Auto-select the only child
+          setChildSelected(entries[0].base_url);
+        } else {
+          setChildSelected("");
+        }
       } catch (err) {
         console.error(err);
         setChildEntries([]);

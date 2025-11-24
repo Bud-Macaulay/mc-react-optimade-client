@@ -91,9 +91,9 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
         </div>
 
         {/* Query URL display */}
-        <div className="pt-2 text-sm md:text-base">
-          Query Url:{" "}
-          {queryUrl ? (
+        {queryUrl && (
+          <div className="pt-2 text-sm md:text-base">
+            Query Url:{" "}
             <a
               href={queryUrl}
               target="_blank"
@@ -102,10 +102,8 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             >
               {queryUrl}
             </a>
-          ) : (
-            "None"
-          )}
-        </div>
+          </div>
+        )}
 
         <div className="pb-4 px-0.5 w-full">
           <ProviderInfo queryUrl={queryUrl} />
