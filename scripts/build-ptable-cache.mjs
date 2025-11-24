@@ -7,7 +7,7 @@ import {
 } from "../src/api.js";
 
 const OUTPUT_PATH = path.resolve("./public/cachedPTable.json");
-const MAX_CONCURRENT_PROVIDERS = 8;
+const MAX_CONCURRENT_PROVIDERS = 1;
 
 // Load previous cache
 function loadCache() {
@@ -71,7 +71,7 @@ async function processProvider(provider, prevCache, resultMap) {
       continue;
     }
 
-    resultMap[url] = { ptable, generatedAt: new Date().toISOString() };
+    resultMap[url] = ptable;
     saveCache(resultMap);
   }
 }

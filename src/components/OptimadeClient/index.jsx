@@ -20,8 +20,6 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentResult, setCurrentResult] = useState(null);
 
-  const [pTablePop, setPTablePop] = useState(null);
-
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
   const [totalPages, setTotalPages] = useState(1);

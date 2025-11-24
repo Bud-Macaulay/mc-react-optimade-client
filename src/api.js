@@ -208,7 +208,7 @@ export async function getPTablePopulation({
       1000
     ).toFixed(
       2
-    )} seconds \n====== URL ${providerUrl}} finished batch searches. ======\n`
+    )} seconds \n====== URL ${providerUrl} finished batch searches. ======\n`
   );
 
   // Return result as a map of element symbol -> present

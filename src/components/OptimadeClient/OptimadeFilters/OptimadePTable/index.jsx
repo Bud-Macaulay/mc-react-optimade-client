@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { elements as allElements } from "./elements";
 
+import HelpIcon from "../../../common/HelpIcon";
+
 const defaultColors = {
   group1: "bg-[#d7bbbb]",
   group2: "bg-[#d7cdbb]",
@@ -26,6 +28,52 @@ export default function PTable({
   hoverClassName = "transform transition-transform duration-100 hover:scale-105 hover:z-10 hover:cursor-pointer",
 }) {
   const [elements, setElements] = useState(allElements);
+  const [cachedPTable, setCachedPTable] = useState(null);
+  const [lastModified, setLastModified] = useState(null);
+
+  // Load cached PTable once on mount
+  useEffect(() => {
+    const loadCache = async () => {
+      try {
+        // Fetch cached PTable
+        const res = await fetch("./cachedPTable.json");
+        if (!res.ok) throw new Error("Failed to load cached PTable");
+
+        // Read last-modified header
+        const lastMod = res.headers.get("last-modified");
+        if (lastMod) {
+          const dateOnly = new Date(lastMod).toLocaleDateString(); // e.g., "11/24/2025" depending on locale
+          setLastModified(dateOnly);
+        }
+
+        const data = await res.json();
+        // Convert to lookup map for fast access
+        const map = {};
+        data.forEach((entry) => {
+          map[entry.providerUrl] = entry.ptable;
+        });
+        setCachedPTable(map);
+      } catch (err) {
+        console.error("Failed to load cached PTable:", err);
+      }
+    };
+
+    loadCache();
+  }, []);
+
+  // Update elements when providerUrl changes
+  useEffect(() => {
+    if (!providerUrl || !cachedPTable) return;
+
+    const ptable = cachedPTable[providerUrl] || {};
+
+    const updatedElements = allElements.map((el) => ({
+      ...el,
+      present: ptable[el.sym] ?? false,
+    }));
+
+    setElements(updatedElements);
+  }, [providerUrl, cachedPTable]);
 
   const toggle = (sym) => {
     if (!onSelectionChange) return;
@@ -44,38 +92,16 @@ export default function PTable({
     }`;
   };
 
-  // Load cached PTable
-  useEffect(() => {
-    if (!providerUrl) return;
-
-    const fetchCached = async () => {
-      try {
-        const res = await fetch("./cachedPTable.json"); // public folder
-        if (!res.ok) throw new Error("Failed to load cached PTable");
-        const cachedData = await res.json();
-
-        // cachedData = [{ providerUrl, ptable }]
-        const entry = cachedData.find((e) => e.providerUrl === providerUrl);
-        if (!entry) return;
-
-        // Map cached PTable to full elements
-        const updatedElements = allElements.map((el) => ({
-          ...el,
-          present: entry.ptable[el.sym] ?? false,
-        }));
-
-        setElements(updatedElements);
-      } catch (err) {
-        console.error("Failed to load cached PTable:", err);
-      }
-    };
-
-    fetchCached();
-  }, [providerUrl]);
-
   return (
     <div className="w-full max-w-full mx-auto p-0">
       <div className="@container">
+        <div className="flex justify-end pb-2 pr-1.5">
+          <HelpIcon
+            popover={`Prefiltering has been performed on all OPTIMADE providers (greying out of structures). This was last performed on ${lastModified}.`}
+            placement="left"
+            color="rgb(40,40,40)"
+          />
+        </div>
         <div
           className="grid @gap-0.5 @sm:gap-1 w-full"
           style={{ gridTemplateColumns: "repeat(18, minmax(0, 1fr))" }}
@@ -93,22 +119,11 @@ export default function PTable({
                     el
                   )}`}
                 >
-                  <span
-                    className="
-                      text-[0px] opacity-0
-                      @sm:text-[0.3rem] @sm:opacity-100
-                      @md:text-[0.5rem]
-                      @lg:text-[0.7rem]
-                      text-gray-700 leading-tight
-                    "
-                  >
+                  <span className="text-[0px] opacity-0 @sm:text-[0.3rem] @sm:opacity-100 @md:text-[0.5rem] @lg:text-[0.7rem] text-gray-700 leading-tight">
                     {el.num}
                   </span>
                   <span
-                    className="
-                      text-[0.55rem]
-                      font-medium leading-none
-                    "
+                    className="text-[0.55rem] font-medium leading-none"
                     style={{ fontSize: "clamp(0.55rem, 2.5vw, 1.25rem)" }}
                   >
                     {el.sym}
