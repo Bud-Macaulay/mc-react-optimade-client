@@ -1,12 +1,12 @@
-// ResultsViewer.js
 import { useMemo } from "react";
 import { JsonView } from "react-json-view-lite";
 import "react-json-view-lite/dist/index.css";
 import { StructureViewerWithDownload } from "../OptimadeStructureHandler";
 import QEInputButton from "../common/QEInputButton";
-import { slateDropdown } from "../../styles/dropdownStyles";
 
 import { generateCIFfromMatrix } from "../../utils";
+
+// TODO, switdch jsonview library
 
 export function ResultViewer({ selectedResult }) {
   const lattice = selectedResult?.attributes?.lattice_vectors ?? [];

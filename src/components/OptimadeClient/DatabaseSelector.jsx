@@ -73,8 +73,6 @@ export function DatabaseSelector({
     }
   }, [customUrl, childSelected, selectedProvider]);
 
-  console.log("childSelected", childSelected);
-
   return (
     <div className="flex flex-col items-start space-y-2 w-full max-w-md">
       <select

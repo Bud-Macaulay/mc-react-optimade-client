@@ -8,6 +8,7 @@ const hyperlinkclassName = "text-blue-500 hover:underline hover:text-blue-600";
 const sectionclassName = "space-y-2";
 
 export default function OptimadeMetadata({ child }) {
+  console.log(child);
   if (!child) {
     return (
       <div className={containerclassName}>

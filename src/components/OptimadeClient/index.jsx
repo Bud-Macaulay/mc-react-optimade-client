@@ -125,10 +125,8 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             </div>
           )}
 
-          <OptimadeMetadata child={selectedChild} />
-
-          <div className="pb-4 px-0.5 w-full">
-            <ProviderInfo queryUrl={queryUrl} />
+          <div className="p-2 max-w-4xl">
+            <OptimadeMetadata child={selectedChild} />
           </div>
 
           {/* Filters */}
@@ -151,6 +149,10 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               </motion.div>
             )}
           </AnimatePresence>
+
+          <div className="p-2 w-full">
+            <ProviderInfo queryUrl={queryUrl} />
+          </div>
 
           {/* The results are only attempted to render if there is a valid query URL */}
           {queryUrl && (
