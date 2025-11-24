@@ -617,7 +617,7 @@
   {
     "providerUrl": "https://optimade.materialscloud.org/main/mc3d-pbe-v1",
     "ptable": {
-      "H": false,
+      "H": true,
       "He": true,
       "Li": true,
       "Be": true,
@@ -863,7 +863,7 @@
   {
     "providerUrl": "https://optimade.materialscloud.org/main/mc3d-pbesol-v2",
     "ptable": {
-      "H": false,
+      "H": true,
       "He": true,
       "Li": true,
       "Be": true,
