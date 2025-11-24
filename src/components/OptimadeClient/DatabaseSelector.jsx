@@ -3,43 +3,60 @@ import { getProviderLinks } from "../../api";
 import debounce from "lodash.debounce";
 import { slateDropdown } from "../../styles/dropdownStyles";
 
-export function DatabaseSelector({ providers, onQueryUrlChange }) {
+export function DatabaseSelector({
+  providers,
+  onQueryUrlChange,
+  onChildChange,
+}) {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [childEntries, setChildEntries] = useState([]);
-  const [childSelected, setChildSelected] = useState("");
+  const [childSelected, setChildSelected] = useState(null); // full object
   const [customUrl, setCustomUrl] = useState("");
   const [loadingChildren, setLoadingChildren] = useState(false);
 
-  // 700 ms between no typing before setting url.
   const handleCustomChange = debounce((val) => setCustomUrl(val), 700);
 
   useEffect(() => {
-    if (!selectedProvider || selectedProvider === "__custom__") {
+    if (!selectedProvider) {
       setChildEntries([]);
-      setChildSelected("");
+      setChildSelected(null);
+      onQueryUrlChange("");
+      onChildChange?.(null);
+      return;
+    }
+
+    if (selectedProvider === "__custom__") {
+      setChildEntries([]);
+      setChildSelected(null);
       onQueryUrlChange(customUrl || "");
+      onChildChange?.(null);
       return;
     }
 
     async function fetchChildren() {
       try {
-        setLoadingChildren(true); // start loading
+        setLoadingChildren(true);
         const { children } = await getProviderLinks(selectedProvider);
         const entries = children.map((c) => c.attributes || {});
         setChildEntries(entries);
 
         if (entries.length === 1) {
-          // Auto-select the only child
-          setChildSelected(entries[0].base_url);
+          setChildSelected(entries[0]);
+          onQueryUrlChange(entries[0].base_url);
+          onChildChange?.(entries[0]);
         } else {
-          setChildSelected("");
+          setChildSelected(null);
+          onQueryUrlChange("");
+          onChildChange?.(null);
         }
       } catch (err) {
         console.error(err);
         setChildEntries([]);
-        setChildSelected("");
+        setChildSelected(null);
+        onQueryUrlChange("");
+        onChildChange?.(null);
       } finally {
-        setLoadingChildren(false); // stop loading
+        setLoadingChildren(false);
       }
     }
 
@@ -47,14 +64,16 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
   }, [selectedProvider]);
 
   useEffect(() => {
-    const url =
-      selectedProvider === "__custom__"
-        ? customUrl
-        : childSelected
-        ? childSelected
-        : "";
-    onQueryUrlChange(url);
-  }, [selectedProvider, childSelected, customUrl, onQueryUrlChange]);
+    if (selectedProvider === "__custom__") {
+      onQueryUrlChange(customUrl || "");
+      onChildChange?.(null);
+    } else if (childSelected) {
+      onQueryUrlChange(childSelected.base_url);
+      onChildChange?.(childSelected);
+    }
+  }, [customUrl, childSelected, selectedProvider]);
+
+  console.log("childSelected", childSelected);
 
   return (
     <div className="flex flex-col items-start space-y-2 w-full max-w-md">
@@ -86,9 +105,14 @@ export function DatabaseSelector({ providers, onQueryUrlChange }) {
         />
       ) : (
         <select
-          className={`${slateDropdown}`}
-          value={childSelected}
-          onChange={(e) => setChildSelected(e.target.value)}
+          className={slateDropdown}
+          value={childSelected?.base_url || ""}
+          onChange={(e) => {
+            const selected = childEntries.find(
+              (c) => c.base_url === e.target.value
+            );
+            setChildSelected(selected || null);
+          }}
           disabled={loadingChildren}
         >
           {loadingChildren ? (

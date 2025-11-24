@@ -14,10 +14,12 @@ import { PaginationHandler } from "./PaginationHandler";
 import { AnimatePresence, motion } from "framer-motion";
 
 import MaterialsCloudHeader from "mc-react-header";
+import OptimadeMetadata from "./OptimadeMetadata";
 
 export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [providers, setProviders] = useState([]);
   const [queryUrl, setQueryUrl] = useState("");
+  const [selectedChild, setSelectedChild] = useState(null);
   const [currentFilter, setCurrentFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentResult, setCurrentResult] = useState(null);
@@ -97,6 +99,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
           <div className="mt-4">
             <DatabaseSelector
               providers={providers}
+              onChildChange={setSelectedChild}
               onQueryUrlChange={(url) => {
                 // Only reset filter if provider actually changes
                 if (url !== queryUrl) {
@@ -121,6 +124,8 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               </a>
             </div>
           )}
+
+          <OptimadeMetadata child={selectedChild} />
 
           <div className="pb-4 px-0.5 w-full">
             <ProviderInfo queryUrl={queryUrl} />
