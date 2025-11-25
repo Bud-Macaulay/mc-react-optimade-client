@@ -33,7 +33,7 @@ export default function OptimadeFAQs() {
           {/* FAQ Content */}
           <section className="space-y-2">
             <h4 className="font-bold text-lg">
-              Why is a given provider not shown in the client?
+              Why is a given provider not shown in the client? ----
             </h4>
             <p className="text-sm">
               The most likely reason is that they have not yet registered with{" "}
