@@ -16,11 +16,15 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      # Build and serve PR version
       - name: Build PR version
         run: npm run build
 
       - name: Serve PR build
         run: npm run preview -- --port 3001 &
+
+      - name: Wait for PR server
+        run: npx wait-on http://localhost:3001
 
       # Checkout base branch and build
       - name: Checkout base branch
@@ -34,13 +38,30 @@ jobs:
       - name: Build base version
         run: npm run build
 
-      - name: preview vite build
+      - name: Serve base build
         run: npm run preview -- --port 3002 &
 
-      # Run screenshot diff script
-      - name: Run visual diff
-        run: node scripts/visualDiff.cjs
+      - name: Wait for base server
+        run: npx wait-on http://localhost:3002
 
+      # Run visual diff and capture Markdown output
+      - name: Run visual diff
+        id: generate-diff
+        run: |
+          node scripts/visualDiff.cjs > diff.md
+          echo "comment<<EOF" >> $GITHUB_OUTPUT
+          cat diff.md >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      # Post visual diffs as a PR comment
+      - name: Comment visual diffs on PR
+        uses: peter-evans/create-or-update-comment@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: ${{ steps.generate-diff.outputs.comment }}
+
+      # Upload raw diff artifacts
       - uses: actions/upload-artifact@v4
         with:
           name: visual-diffs
