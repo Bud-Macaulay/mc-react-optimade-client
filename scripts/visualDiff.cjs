@@ -14,11 +14,11 @@ async function run() {
     const page = await browser.newPage();
 
     // PR screenshot
-    await page.goto(`http://localhost:5173${path}`);
+    await page.goto(`http://localhost:3001${path}`);
     await page.screenshot({ path: `diffs/${name}_pr.png`, fullPage: true });
 
     // Base screenshot
-    await page.goto(`http://localhost:5173${path}`);
+    await page.goto(`http://localhost:3002${path}`);
     await page.screenshot({ path: `diffs/${name}_base.png`, fullPage: true });
 
     // Compare
