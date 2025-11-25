@@ -2,6 +2,7 @@ const { chromium } = require("playwright");
 const pixelmatch = require("pixelmatch").default || require("pixelmatch");
 const { PNG } = require("pngjs");
 const fs = require("fs");
+const sharp = require("sharp");
 
 const urls = [{ name: "home", path: "/" }];
 
@@ -16,12 +17,16 @@ async function run() {
     const page = await browser.newPage();
 
     // PR screenshot
-    await page.goto(`http://localhost:3001${path}`);
+    await page.goto(`http://localhost:3001${path}`, {
+      waitUntil: "networkidle",
+    });
     const prPath = `diffs/${name}_pr.png`;
     await page.screenshot({ path: prPath, fullPage: true });
 
     // Base screenshot
-    await page.goto(`http://localhost:3002${path}`);
+    await page.goto(`http://localhost:3002${path}`, {
+      waitUntil: "networkidle",
+    });
     const basePath = `diffs/${name}_base.png`;
     await page.screenshot({ path: basePath, fullPage: true });
 
@@ -37,8 +42,14 @@ async function run() {
     const diffPath = `diffs/${name}_diff.png`;
     fs.writeFileSync(diffPath, PNG.sync.write(out));
 
-    // Encode diff as base64 for PR comment
-    const base64 = fs.readFileSync(diffPath).toString("base64");
+    // Resize diff for PR comment
+    const thumbBuffer = await sharp(diffPath)
+      .resize({ width: 600 }) // adjust width as needed
+      .png()
+      .toBuffer();
+
+    // Encode thumbnail as base64 for PR comment
+    const base64 = thumbBuffer.toString("base64");
     mdOutput += `### ${name}\n![${name} diff](data:image/png;base64,${base64})\n\n`;
 
     await page.close();
