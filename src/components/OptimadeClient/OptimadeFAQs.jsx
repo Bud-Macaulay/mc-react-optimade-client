@@ -19,7 +19,7 @@ export default function OptimadeFAQs() {
         onClick={() => setIsOpen(!isOpen)}
         className="w-full border-2 border-slate-300 bg-slate-200 py-3 px-4 rounded shadow flex justify-between hover:bg-slate-300 transition"
       >
-        <span className="text-left flex-1">FA1111Qs</span>
+        <span className="text-left flex-1">FA222Qs</span>
         <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
       </button>
 
