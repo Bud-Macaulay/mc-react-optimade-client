@@ -7,7 +7,7 @@ export default function ResultsDropdown({
   setSelectedResult,
 }) {
   return (
-    <div className="max-w-md">
+    <>
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Select a result
       </label>
@@ -32,12 +32,6 @@ export default function ResultsDropdown({
           ))
         )}
       </select>
-
-      {resultsLoading && (
-        <div className="absolute right-5 top-1/2 bg-white bg-opacity-50 pointer-events-none">
-          <div className="w-5 h-5 border-2 border-t-2 border-gray-400 border-t-blue-500 rounded-full animate-spin" />
-        </div>
-      )}
-    </div>
+    </>
   );
 }

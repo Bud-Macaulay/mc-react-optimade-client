@@ -100,13 +100,13 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
         <DownloadIcon />
       </div>
       {open && (
-        <div className="absolute right-0 mt-1 bg-white rounded-sm shadow-sm ring-1 ring-slate-700 z-100">
+        <div className="absolute right-0 mt-0.5 bg-white rounded-sm shadow-sm ring-1 ring-slate-500 z-100">
           <ul className="list-none p-0 m-0">
             {downloadFormats.map(({ format, label }) => (
               <li key={format}>
                 <button
                   onClick={() => handleDownload(format)}
-                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-800 hover:bg-gray-100 hover:cursor-pointer"
+                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-700 hover:bg-gray-100 hover:cursor-pointer"
                 >
                   {label}
                 </button>

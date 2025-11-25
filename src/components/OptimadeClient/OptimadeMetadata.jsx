@@ -1,5 +1,5 @@
-const containerclassName =
-  "items-center justify-center p-4 w-full bg-slate-50 border rounded";
+const containerStyle =
+  "w-full p-2 border border-slate-500 rounded-sm bg-slate-50 shadow-sm";
 
 const paragraphclassName = "text-sm px-1";
 const headingclassName = "text-lg mb-1";
@@ -8,10 +8,9 @@ const hyperlinkclassName = "text-blue-500 hover:underline hover:text-blue-600";
 const sectionclassName = "space-y-2";
 
 export default function OptimadeMetadata({ child }) {
-  console.log(child);
   if (!child) {
     return (
-      <div className={containerclassName}>
+      <div className={containerStyle}>
         <h3 className={headingclassName}>FAQs</h3>
 
         <section className={sectionclassName}>
@@ -71,7 +70,7 @@ export default function OptimadeMetadata({ child }) {
   const { name, description, ...otherAttrs } = child;
 
   return (
-    <div className={containerclassName}>
+    <div className={containerStyle}>
       <h3 className={headingclassName}>{name}</h3>
       {description && <p className={paragraphclassName}>{description}</p>}
     </div>

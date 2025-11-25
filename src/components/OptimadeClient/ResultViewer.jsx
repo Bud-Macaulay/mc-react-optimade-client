@@ -8,6 +8,9 @@ import { generateCIFfromMatrix } from "../../utils";
 
 // TODO, switdch jsonview library
 
+const containerStyle =
+  "w-full md:w-1/2 border border-slate-500 rounded-sm p-2 bg-slate-50 shadow-sm min-h-48 md:h-[450px] h-[200px] overflow-auto text-[12px] md:text-[13px]";
+
 export function ResultViewer({ selectedResult }) {
   const lattice = selectedResult?.attributes?.lattice_vectors ?? [];
   const sitesRaw = selectedResult?.attributes?.cartesian_site_positions ?? [];
@@ -27,7 +30,7 @@ export function ResultViewer({ selectedResult }) {
   );
 
   return (
-    <div className="w-full mt-2 md:mt-4 flex flex-col">
+    <div className="w-full flex flex-col">
       {/* Result details */}
       {selectedResult && (
         <div className="@container w-full flex flex-col md:flex-row gap-2 md:gap-4">
@@ -37,10 +40,7 @@ export function ResultViewer({ selectedResult }) {
               cifText={cifText}
             />
           </div>
-          <div className="w-full md:w-1/2 bg-slate-100 rounded shadow border p-2 min-h-48 md:h-[450px] h-[200px] overflow-auto text-xs">
-            <p className="text-sm md:text-md pb-1 md:pb-2">
-              OPTIMADE JSON RESPONSE
-            </p>
+          <div className={containerStyle}>
             <JsonView
               data={selectedResult}
               compactTopLevel

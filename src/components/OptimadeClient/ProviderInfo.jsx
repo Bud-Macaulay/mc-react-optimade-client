@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getInfo } from "../../api";
 
+const containerStyle =
+  "w-full border border-slate-500 rounded-sm bg-slate-50 shadow-sm overflow-hidden text-[11px] md:text-[13px]";
+
+const tableTitleclassName = "font-semibold border-b [&>th]:px-2";
+
+const tableRowclassName =
+  "border-b border-slate-300 *:py-0.5 *:pl-2 pr-8 *:break-words";
+
 export function ProviderInfo({ queryUrl }) {
   const [urlInfo, setUrlInfo] = useState(null);
   const [urlInfoErrors, setUrlInfoErrors] = useState([]);
@@ -19,6 +27,7 @@ export function ProviderInfo({ queryUrl }) {
     async function loadProviderInfo() {
       try {
         const { customProps, error } = await getInfo({ providerUrl: queryUrl });
+
         if (error) setUrlInfoErrors([error]);
         if (customProps) setUrlInfo(customProps);
       } catch (err) {
@@ -37,71 +46,57 @@ export function ProviderInfo({ queryUrl }) {
     }
   }, [isOpen, urlInfo, urlInfoErrors, loading]);
 
-  if (!queryUrl) return null;
+  if (!queryUrl || (urlInfoErrors.length > 0 && !loading)) return null;
 
   return (
-    <div className="w-full mt-4 border rounded bg-slate-50 shadow-sm overflow-hidden">
-      {/* Accordion Header + Container */}
+    <div className={containerStyle}>
+      {/* Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-3 bg-slate-100 hover:bg-slate-200 transition"
+        className="w-full flex justify-between p-3 bg-slate-100 hover:bg-slate-200 hover:cursor-pointer transition"
       >
-        <span className="text-sm font-semibold">
+        <span className="font-semibold">
           Custom attributes in selected database
         </span>
-        <span className="ml-2">{isOpen ? "▲" : "▼"}</span>
+        <span>{isOpen ? "▲" : "▼"}</span>
       </button>
 
-      {/* Collapsible Content */}
+      {/* Collapsible content */}
       <div
         ref={contentRef}
         style={{ maxHeight: height }}
-        className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
+        className="transition-[max-height] duration-300 ease-in-out"
       >
-        <div className="p-4">
+        <div className="pt-2 max-h-96 overflow-y-auto">
+          {/* Loading indicator */}
           {loading && (
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center py-4">
               <div className="w-5 h-5 border-2 border-t-2 border-gray-400 border-t-blue-500 rounded-full animate-spin mr-2"></div>
               <span className="text-gray-500">Loading provider info…</span>
             </div>
           )}
 
-          {urlInfoErrors.length > 0 && !loading && (
-            <div className="bg-red-100 border border-red-500 text-red-700 px-4 py-2 rounded mb-4 w-full">
-              <strong>Failed to fetch provider info:</strong>
-              <ul className="list-disc pl-5">
-                {urlInfoErrors.map((err, idx) => (
-                  <li key={idx}>{err.message}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-
+          {/* Table */}
           {urlInfo && !loading && (
-            <div className="grid grid-cols-[8fr_17fr_2fr] gap-y-0.5 gap-x-2">
-              <div className="font-semibold truncate text-[9px] sm:text-[11px] md:text-[13px]">
-                Field
-              </div>
-              <div className="font-semibold text-[9px] sm:text-[11px] md:text-[13px]">
-                Description
-              </div>
-              <div className="font-semibold truncate text-[9px] sm:text-[11px] md:text-[13px]">
-                Unit
-              </div>
-
-              {Object.entries(urlInfo).map(([key, info]) => (
-                <React.Fragment key={key}>
-                  <div className="break-words text-[9px] sm:text-[11px] md:text-[13px]">
-                    {key}
-                  </div>
-                  <div className="break-words text-[9px] sm:text-[11px] md:text-[13px]">
-                    {info.description || "-"}
-                  </div>
-                  <div className="break-words text-[9px] sm:text-[11px] md:text-[13px]">
-                    {info.unit || "-"}
-                  </div>
-                </React.Fragment>
-              ))}
+            <div className="">
+              <table className="w-full table-fixed text-left border-collapse">
+                <thead>
+                  <tr className={tableTitleclassName}>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Unit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.entries(urlInfo).map(([key, info]) => (
+                    <tr key={key} className={tableRowclassName}>
+                      <td>{key}</td>
+                      <td>{info.description || "-"}</td>
+                      <td>{info.unit || "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>

@@ -1,5 +1,8 @@
 import { FirstIcon, LastIcon, NextIcon, PreviousIcon } from "../common/Icons";
 
+const buttonClassName =
+  "px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 hover:cursor-pointer disabled:opacity-50 disabled:cursor-default";
+
 export function PaginationHandler({
   currentPage,
   totalPages,
@@ -8,9 +11,6 @@ export function PaginationHandler({
   onPageChange,
 }) {
   if (!totalPages || totalPages < 1) return null;
-
-  const buttonClassName =
-    "px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 hover:cursor-pointer disabled:opacity-50 disabled:cursor-default";
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-1">

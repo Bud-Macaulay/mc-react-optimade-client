@@ -130,25 +130,27 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
           </div>
 
           {/* Filters */}
-          <AnimatePresence>
-            {queryUrl && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="w-full p-4 border rounded bg-slate-50"
-              >
-                <OptimadeFilters
-                  queryUrl={queryUrl}
-                  onSubmit={(filter) => {
-                    setCurrentFilter(filter);
-                    setCurrentPage(1); // reset page when filter changes
-                  }}
-                />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="p-2 w-full">
+            <AnimatePresence>
+              {queryUrl && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="w-full p-2 border border-slate-500 rounded-sm shadow-sm bg-slate-50"
+                >
+                  <OptimadeFilters
+                    queryUrl={queryUrl}
+                    onSubmit={(filter) => {
+                      setCurrentFilter(filter);
+                      setCurrentPage(1); // reset page when filter changes
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
 
           <div className="p-2 w-full">
             <ProviderInfo queryUrl={queryUrl} />
@@ -167,7 +169,6 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
               <div className="border-b border-slate-300 py-2"></div>
 
               {/* Implies zero results - either through server/syntax or filters too tight */}
-
               {!loading && !currentResult && currentFilter && (
                 <div className="my-4 w-full rounded bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-3 text-sm">
                   <strong className="font-semibold">Warning: </strong>
@@ -189,10 +190,10 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
                 </div>
               )}
 
-              {/* Implies success and */}
+              {/* Implies success  */}
               {!loading && results && currentResult && (
                 <div className="py-1 md:py-2 ">
-                  <div className="flex items-end gap-4">
+                  <div className="flex flex-col md:flex-row items-stretch md:items-end gap-4">
                     <div className="flex-1">
                       <ResultsDropdown
                         results={results}
@@ -201,7 +202,6 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
                         setSelectedResult={setCurrentResult}
                       />
                     </div>
-
                     <div>
                       <PaginationHandler
                         currentPage={currentPage}
@@ -213,7 +213,9 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
                     </div>
                   </div>
 
-                  <ResultViewer selectedResult={currentResult} />
+                  <div className="py-4">
+                    <ResultViewer selectedResult={currentResult} />
+                  </div>
                 </div>
               )}
             </div>
