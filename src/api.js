@@ -141,15 +141,22 @@ export async function getPTablePopulation({
   let totalElementsQueried = 0;
   const startTime = performance.now();
 
-  // Sort elements by atomic number: lightest first
-  const sortedElements = [...elements].sort((a, b) => a.num - b.num);
-
   // Determine which elements we actually need to query
-  for (const el of sortedElements) {
-    if (existingCache[el.sym] === true) {
-      presentElements.add(el.sym);
-    } else {
-      missingElements.push(el);
+  // Check if existingCache indicates "all missing"
+  if (
+    !existingCache ||
+    Object.keys(existingCache).length === 0 ||
+    existingCache.all === false
+  ) {
+    // Everything is missing, so all elements should be queried
+    missingElements.push(...elements);
+  } else {
+    for (const el of elements) {
+      if (existingCache[el.sym] === false) {
+        missingElements.push(el);
+      } else {
+        presentElements.add(el.sym);
+      }
     }
   }
 

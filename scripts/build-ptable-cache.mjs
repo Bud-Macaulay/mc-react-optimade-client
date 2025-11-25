@@ -6,7 +6,13 @@ import {
   getPTablePopulation,
 } from "../src/api.js";
 
+// other caching methods
+import { saveBinaryCache, saveBitMapCache, ELEMENTS } from "./cacheFormats.js";
+const OUTPUT_BINARY = path.resolve("./public/cachedPTableBinary.json");
+const OUTPUT_BITMAP = path.resolve("./public/cachedPTableBitMap.json");
+
 const OUTPUT_PATH = path.resolve("./public/cachedPTable.json");
+
 const MAX_CONCURRENT_PROVIDERS = 8;
 
 // Load previous cache
@@ -67,11 +73,20 @@ async function processProvider(provider, prevCache, resultMap) {
         existingCache,
       });
     } catch (err) {
-      console.warn(`    Failed to query PTable for ${url}`, err);
+      console.warn(`Failed to query PTable for ${url}`, err);
       continue;
     }
 
-    resultMap[url] = ptable;
+    const filtered = Object.fromEntries(
+      Object.entries(ptable).filter(([_, v]) => v === false)
+    );
+
+    if (Object.keys(filtered).length === Object.keys(ptable).length) {
+      resultMap[url] = { all: false };
+    } else {
+      resultMap[url] = filtered;
+    }
+
     saveCache(resultMap);
   }
 }
@@ -94,7 +109,13 @@ async function main() {
     });
 
   await Promise.all(workers);
-  console.log("\nAll providers processed. Final write complete:", OUTPUT_PATH);
+
+  // save additional formats
+  saveBinaryCache(resultMap, OUTPUT_BINARY);
+  saveBitMapCache(resultMap, OUTPUT_BITMAP);
+
+  console.log("\nAll providers processed. Final write complete:");
+  console.log("cachedPTable.json:", OUTPUT_PATH);
 }
 
 main().catch((err) => {
