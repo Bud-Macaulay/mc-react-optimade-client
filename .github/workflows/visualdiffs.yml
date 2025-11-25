@@ -39,7 +39,7 @@ jobs:
 
       # Run screenshot diff script
       - name: Run visual diff
-        run: node scripts/visualDiff.js
+        run: node scripts/visualDiff.cjs
 
       - uses: actions/upload-artifact@v4
         with:
