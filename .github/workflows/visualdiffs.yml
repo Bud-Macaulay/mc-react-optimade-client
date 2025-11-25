@@ -1,0 +1,47 @@
+name: Visual URL Comparison
+
+on:
+  pull_request:
+
+jobs:
+  visual-diff:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install deps for PR build
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build PR version
+        run: npm run build
+
+      - name: Serve PR build
+        run: npm run preview -- --port 3001 &
+
+      # Checkout base branch and build
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.event.pull_request.base.ref }} --depth=1
+          git checkout FETCH_HEAD
+
+      - name: Install deps for base build
+        run: npm ci
+
+      - name: Build base version
+        run: npm run build
+
+      - name: preview vite build
+        run: npm run preview -- --port 3002 &
+
+      # Run screenshot diff script
+      - name: Run visual diff
+        run: node scripts/visualDiff.js
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: visual-diffs
+          path: diffs
