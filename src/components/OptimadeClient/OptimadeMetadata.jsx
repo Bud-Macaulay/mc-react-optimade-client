@@ -14,7 +14,9 @@ export default function OptimadeMetadata({ child }) {
         <h3 className={headingclassName}>FAQs</h3>
 
         <section className={sectionclassName}>
-          <h4 className={headingclassName}>What is the OPTIMADE Client?</h4>
+          <h4 className={headingclassName}>
+            What is the OPTIMADE Riot Client?
+          </h4>
           <p className={paragraphclassName}>
             This is a friendly client to search through databases and other
             implementations exposing an OPTIMADE RESTful API. To get more
