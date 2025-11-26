@@ -6,10 +6,9 @@ import QEInputButton from "../common/QEInputButton";
 
 import { generateCIFfromMatrix } from "../../utils";
 
-// TODO, switdch jsonview library
+import { containerStyleHalf } from "../../styles/containerStyles";
 
-const containerStyle =
-  "w-full md:w-1/2 border border-slate-500 rounded-sm p-2 bg-slate-50 shadow-sm min-h-48 md:h-[450px] h-[200px] overflow-auto text-[12px] md:text-[13px]";
+// TODO, switdch jsonview library
 
 export function ResultViewer({ selectedResult }) {
   const lattice = selectedResult?.attributes?.lattice_vectors ?? [];
@@ -40,7 +39,7 @@ export function ResultViewer({ selectedResult }) {
               cifText={cifText}
             />
           </div>
-          <div className={containerStyle}>
+          <div className={containerStyleHalf}>
             <JsonView
               data={selectedResult}
               compactTopLevel

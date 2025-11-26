@@ -74,7 +74,7 @@ export function DatabaseSelector({
   }, [customUrl, childSelected, selectedProvider]);
 
   return (
-    <div className="flex flex-col items-start space-y-2 w-full max-w-md">
+    <div className="flex flex-col items-start space-y-2 max-w-md">
       <select
         className={slateDropdown}
         value={selectedProvider}

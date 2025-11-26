@@ -3,10 +3,10 @@ import StructureVisualizer from "mc-react-structure-visualizer";
 import { StructureDownload } from "../common/StructureDownload";
 import { generateCIFfromMatrix } from "../../utils";
 
-export function StructureViewerWithDownload({
-  OptimadeStructure,
-  className = "",
-}) {
+import { textError, textNormal } from "../../styles/textStyles";
+import { containerStyle } from "../../styles/containerStyles";
+
+export function StructureViewerWithDownload({ OptimadeStructure }) {
   const lattice = OptimadeStructure.attributes.lattice_vectors;
   const sitesRaw =
     OptimadeStructure?.attributes?.cartesian_site_positions || null;
@@ -34,9 +34,9 @@ export function StructureViewerWithDownload({
   if (!sitesRaw)
     return (
       <div
-        className={`relative rounded-sm w-full px-20 min-h-[450px] ${className} flex items-center justify-center border border-slate-500`}
+        className={`${containerStyle} min-h-[450px] flex items-center justify-center`}
       >
-        <div className="text-red-500 text-center">
+        <div className={textError}>
           <p>Unexpected or malformed data format found. </p>
           <p>--</p>
 
@@ -46,7 +46,7 @@ export function StructureViewerWithDownload({
     );
 
   return (
-    <div className={`relative rounded-lg w-full min-h-[450px] ${className}`}>
+    <div className={`relative min-h-[450px] `}>
       {/* Visualizer fills container */}
       <div className="w-full h-[450px]">
         <StructureVisualizer key={cifText} cifText={cifText} />

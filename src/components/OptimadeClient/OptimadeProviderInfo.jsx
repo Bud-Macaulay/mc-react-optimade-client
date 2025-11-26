@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getInfo } from "../../api";
 
-const containerStyle =
-  "w-full border border-slate-500 rounded-sm bg-slate-50 shadow-sm overflow-hidden text-[11px] md:text-[13px]";
+import { containerStyleDropdown } from "../../styles/containerStyles";
 
 const tableTitleclassName = "font-semibold border-b [&>th]:px-2";
 
 const tableRowclassName =
   "border-b border-slate-300 *:py-0.5 *:pl-2 pr-8 *:break-words";
 
-export function ProviderInfo({ queryUrl }) {
+export default function OptimadeProviderInfo({ queryUrl }) {
   const [urlInfo, setUrlInfo] = useState(null);
   const [urlInfoErrors, setUrlInfoErrors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,7 +48,7 @@ export function ProviderInfo({ queryUrl }) {
   if (!queryUrl || (urlInfoErrors.length > 0 && !loading)) return null;
 
   return (
-    <div className={containerStyle}>
+    <div className={containerStyleDropdown}>
       {/* Header */}
       <button
         onClick={() => setIsOpen(!isOpen)}

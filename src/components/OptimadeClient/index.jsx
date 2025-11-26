@@ -1,20 +1,21 @@
 import { useState, useEffect, useCallback } from "react";
-import {
-  getProvidersList,
-  getStructures,
-  getPTablePopulation,
-} from "../../api";
+import { getProvidersList, getStructures } from "../../api";
 import OptimadeHeader from "./OptimadeHeader";
 import { DatabaseSelector } from "./DatabaseSelector";
 import OptimadeFilters from "./OptimadeFilters";
 import { ResultViewer } from "./ResultViewer";
 import ResultsDropdown from "./ResultsDropdown";
-import { ProviderInfo } from "./ProviderInfo";
+import OptimadeProviderInfo from "./OptimadeProviderInfo";
 import { PaginationHandler } from "./PaginationHandler";
 import { AnimatePresence, motion } from "framer-motion";
 
+import OptimadeNoResults from "./OptimadeNoResults";
+
 import MaterialsCloudHeader from "mc-react-header";
 import OptimadeMetadata from "./OptimadeMetadata";
+
+import { textHyperlink, textNormal, textSmall } from "../../styles/textStyles";
+import { containerStyle } from "../../styles/containerStyles";
 
 export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [providers, setProviders] = useState([]);
@@ -96,7 +97,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
         <div className="flex flex-col items-center w-full px-2 py-2">
           <OptimadeHeader />
           {/* Database selector */}
-          <div className="mt-4">
+          <div className="pt-4 p-2">
             <DatabaseSelector
               providers={providers}
               onChildChange={setSelectedChild}
@@ -112,13 +113,13 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
 
           {/* Query URL display */}
           {queryUrl && (
-            <div className="pt-2 text-sm md:text-base">
+            <div className={`${textNormal}`}>
               Query Url:{" "}
               <a
                 href={queryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className={`${textHyperlink}`}
               >
                 {queryUrl}
               </a>
@@ -138,7 +139,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="w-full p-2 border border-slate-500 rounded-sm shadow-sm bg-slate-50"
+                  className={containerStyle}
                 >
                   <OptimadeFilters
                     queryUrl={queryUrl}
@@ -153,7 +154,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
           </div>
 
           <div className="p-2 w-full">
-            <ProviderInfo queryUrl={queryUrl} />
+            <OptimadeProviderInfo queryUrl={queryUrl} />
           </div>
 
           {/* The results are only attempted to render if there is a valid query URL */}
@@ -161,32 +162,20 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             <div className="px-2 w-full">
               {/* Loading spinner haphazardly dumped in the middle of the section */}
               {loading && (
-                <div className="flex justify-center items-center h-[800px]">
+                <div className="flex justify-center items-center h-[610px]">
                   <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin" />
                 </div>
               )}
 
               <div className="border-b border-slate-300 py-2"></div>
 
-              {/* Implies zero results - either through server/syntax or filters too tight */}
+              {/* zero results - either through server/syntax or filters too tight */}
               {!loading && !currentResult && currentFilter && (
-                <div className="my-4 w-full rounded bg-yellow-100 border border-yellow-400 text-yellow-800 px-3 py-3 text-sm">
-                  <strong className="font-semibold">Warning: </strong>
-                  No results returned for this query. The server may not be
-                  responsive or try to relax the filters.
-                  <p className="text-xs text-center pt-2">
-                    Attempted Query:{" "}
-                    <a
-                      href={`${queryUrl}/structures?filter=${encodeURIComponent(
-                        currentFilter
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline text-blue-700 hover:text-blue-900 break-all"
-                    >
-                      {`${queryUrl}/structures?filter=${currentFilter}`}
-                    </a>
-                  </p>
+                <div className="p-2">
+                  <OptimadeNoResults
+                    queryUrl={queryUrl}
+                    currentFilter={currentFilter}
+                  />
                 </div>
               )}
 

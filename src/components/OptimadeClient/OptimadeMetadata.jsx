@@ -1,5 +1,4 @@
-const containerStyle =
-  "w-full p-2 border border-slate-500 rounded-sm bg-slate-50 shadow-sm";
+import { containerStyle } from "../../styles/containerStyles";
 
 const paragraphclassName = "text-sm px-1";
 const headingclassName = "text-lg mb-1";

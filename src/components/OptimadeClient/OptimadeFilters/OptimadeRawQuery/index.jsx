@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 
+import { textNormal } from "../../../../styles/textStyles";
+import { baseButtonStyle } from "../../../../styles/buttonStyles";
+import { containerStyle } from "../../../../styles/containerStyles";
+
 export function QueryTextBox({
   value,
   onChange,
-  placeholder = "Enter filter…",
+  placeholder = "Enter OPTIMADE filter…",
   onSubmit,
   loading = false,
 }) {
   return (
-    <div className="space-y-2">
+    <div className={textNormal}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -21,12 +25,12 @@ export function QueryTextBox({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="flex-1 p-2 border border-gray-300 rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`${containerStyle} border-gray-300! bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 `}
         />
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 disabled:opacity-50 hover:cursor-pointer"
+          className={`${baseButtonStyle} disabled:opacity-50`}
         >
           {loading ? "Loading…" : "Submit"}
         </button>

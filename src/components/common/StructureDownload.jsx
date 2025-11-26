@@ -16,6 +16,9 @@ const defaultFormats = [
   { format: "poscar", label: "VASP" },
 ];
 
+import { baseButtonStyle } from "../../styles/buttonStyles";
+import { textSmall } from "../../styles/textStyles";
+
 // === Download Helper ===
 function downloadFile(content, filename) {
   const blob = new Blob([content], { type: "text/plain" });
@@ -94,19 +97,19 @@ export function StructureDownload({ OptimadeStructure, download_formats }) {
     <div className="relative inline-block" ref={containerRef}>
       <div
         onClick={() => setOpen((prev) => !prev)}
-        className="flex items-center gap-1 px-2 py-2 text-sm bg-blue-600 text-white rounded-sm hover:bg-blue-700 cursor-pointer"
+        className={`${baseButtonStyle} ${textSmall} py-2! px-2!`}
         title="Download"
       >
         <DownloadIcon />
       </div>
       {open && (
         <div className="absolute right-0 mt-0.5 bg-white rounded-sm shadow-sm ring-1 ring-slate-500 z-100">
-          <ul className="list-none p-0 m-0">
+          <ul>
             {downloadFormats.map(({ format, label }) => (
               <li key={format}>
                 <button
                   onClick={() => handleDownload(format)}
-                  className="block w-full text-left px-3 py-1.5 text-sm text-slate-700 hover:bg-gray-100 hover:cursor-pointer"
+                  className={`${textSmall} w-full text-left px-3 py-1.25 text-slate-700 hover:bg-gray-100 hover:cursor-pointer`}
                 >
                   {label}
                 </button>

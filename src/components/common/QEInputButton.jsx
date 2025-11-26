@@ -1,5 +1,6 @@
-// TODO - add a Development domain of the qeinputgenerator and a flag to switch.
-// Maybe extract this domain into the route of the project.
+import { baseButtonStyle } from "../../styles/buttonStyles";
+import { textNormal } from "../../styles/textStyles";
+
 export default function QEInputButton({ cifText }) {
   const DOMAIN = "https://qeinputgenerator.materialscloud.io";
 
@@ -45,7 +46,7 @@ export default function QEInputButton({ cifText }) {
       onClick={handleClick}
       disabled={!cifText}
       title="Use the chosen structure in the QE Input Generator Tool"
-      className="px-2 py-1 md:px-4 md:py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400 text-sm md:text-base"
+      className={`${baseButtonStyle} ${textNormal}`}
     >
       Use in QE Input Generator
     </button>

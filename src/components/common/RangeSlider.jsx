@@ -1,8 +1,10 @@
 import { Range } from "react-range";
 import React, { useState, useEffect } from "react";
 
+import { textNormal, textSmall } from "../../styles/textStyles";
+
 // needed to make input look like normal text. may look awful on old browsers
-const inputOverride = `w-12 text-center text-sm md:text-base bg-transparent border-none outline-none p-0
+const inputOverride = `w-12 text-center bg-transparent border-none outline-none p-0
              [&::-webkit-inner-spin-button]:appearance-none
              [&::-webkit-outer-spin-button]:appearance-none
              [-moz-appearance:textfield]`;
@@ -52,9 +54,9 @@ export default function RangeSlider({ title, value, onChange, min, max }) {
   };
 
   return (
-    <div className="my-4 text-sm md:text-base">
-      <label className="block font-medium">{title}</label>
-      <div className="flex space-x-2 items-center">
+    <div className={`${textNormal} p-2  pt-4`}>
+      <label className="block">{title}</label>
+      <div className="flex space-x-2.5 items-center">
         <input
           type="number"
           value={tempValue[0]}
@@ -84,10 +86,7 @@ export default function RangeSlider({ title, value, onChange, min, max }) {
             </div>
           )}
           renderThumb={({ props }) => (
-            <div
-              {...props}
-              className="relative w-5 h-5 flex items-center justify-center"
-            >
+            <div {...props} className="relative w-5 h-5 flex items-center">
               <div className={sliderThumbStyle} />
             </div>
           )}
@@ -100,7 +99,7 @@ export default function RangeSlider({ title, value, onChange, min, max }) {
           max={max}
           onChange={(e) => handleInputChange(1, e.target.value)}
           onBlur={() => handleInputBlur(1)}
-          className={inputOverride}
+          className={`${inputOverride} ${textSmall}`}
         />
       </div>
     </div>

@@ -4,6 +4,8 @@ import { QueryTextBox } from "./OptimadeRawQuery";
 import RangeSlider from "../../common/RangeSlider";
 import { buildQueryString } from "./OptimadeRawQuery/buildQueryString";
 
+import { textNormal, textSmall } from "../../../styles/textStyles";
+
 export default function OptimadeFilters({ queryUrl, initialFilter, onSubmit }) {
   // Parent can optionally pass an initial filter string
   const [numAtomsRange, setNumAtomsRange] = useState([1, 118]);
@@ -44,7 +46,7 @@ export default function OptimadeFilters({ queryUrl, initialFilter, onSubmit }) {
   }, [initialFilter]);
 
   return (
-    <div className="space-y-2">
+    <div className="pb-4 space-y-2">
       <div className={manualMode ? "opacity-50 pointer-events-none" : ""}>
         <PTable
           providerUrl={queryUrl}
@@ -77,24 +79,21 @@ export default function OptimadeFilters({ queryUrl, initialFilter, onSubmit }) {
           type="checkbox"
           checked={manualMode}
           onChange={toggleManualMode}
-          className="h-4 w-4 text-blue-600 border-gray-300 rounded"
+          className="hover:cursor-pointer h-4 w-4"
         />
         <label
           htmlFor="manual-mode-toggle"
-          className="text-sm text-gray-700 select-none"
+          className={`${textSmall} text-gray-700 select-none`}
         >
           Unlock custom query
         </label>
       </div>
 
-      <div className="pb-4 text-sm md:text-base">
-        <QueryTextBox
-          value={filterString}
-          onChange={manualMode ? setManualQuery : () => {}}
-          onSubmit={handleSubmit}
-          placeholder="Enter OPTIMADE filter…"
-        />
-      </div>
+      <QueryTextBox
+        value={filterString}
+        onChange={manualMode ? setManualQuery : () => {}}
+        onSubmit={handleSubmit}
+      />
     </div>
   );
 }
