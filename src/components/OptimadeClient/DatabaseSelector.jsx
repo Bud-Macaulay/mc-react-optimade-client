@@ -10,7 +10,7 @@ export function DatabaseSelector({
 }) {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [childEntries, setChildEntries] = useState([]);
-  const [childSelected, setChildSelected] = useState(null); // full object
+  const [childSelected, setChildSelected] = useState(null);
   const [customUrl, setCustomUrl] = useState("");
   const [loadingChildren, setLoadingChildren] = useState(false);
 
@@ -37,7 +37,12 @@ export function DatabaseSelector({
       try {
         setLoadingChildren(true);
         const { children } = await getProviderLinks(selectedProvider);
-        const entries = children.map((c) => c.attributes || {});
+
+        const entries = children.map((c) => ({
+          id: c.id,
+          ...(c.attributes ?? {}),
+        }));
+
         setChildEntries(entries);
 
         if (entries.length === 1) {
@@ -88,7 +93,7 @@ export function DatabaseSelector({
             key={p.attributes?.id ?? p.id ?? p.attributes?.base_url}
             value={p.attributes?.base_url || ""}
           >
-            {p.attributes?.name || p.id}
+            {`${p.attributes?.name} - ${p.id}`}
           </option>
         ))}
         <option value="__custom__">Custom endpoint…</option>
@@ -104,11 +109,9 @@ export function DatabaseSelector({
       ) : (
         <select
           className={slateDropdown}
-          value={childSelected?.base_url || ""}
+          value={childSelected?.id || ""}
           onChange={(e) => {
-            const selected = childEntries.find(
-              (c) => c.base_url === e.target.value
-            );
+            const selected = childEntries.find((c) => c.id === e.target.value);
             setChildSelected(selected || null);
           }}
           disabled={loadingChildren}
@@ -121,8 +124,8 @@ export function DatabaseSelector({
                 Select a subdatabase…
               </option>
               {childEntries.map((c) => (
-                <option key={c.id ?? c.base_url ?? c.name} value={c.base_url}>
-                  {c.name}
+                <option key={c.id} value={c.id}>
+                  {`${c.id} - ${c.name}`}
                 </option>
               ))}
             </>
