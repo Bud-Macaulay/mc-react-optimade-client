@@ -14,8 +14,7 @@ export default function OptimadeNoResults({ queryUrl, currentFilter }) {
   return (
     <div className={`${warningContainerStyle} ${textSmall}`}>
       <strong className="font-semibold">Warning: </strong>
-      No results returned for this query. The server may not be responsive or
-      try to relax the filters.
+      No results returned for this query. Try to relax the filters.
       <p className="pt-2">
         Attempted Query:{" "}
         <a

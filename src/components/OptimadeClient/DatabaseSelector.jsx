@@ -107,7 +107,7 @@ export function DatabaseSelector({
             key={p.attributes?.id ?? p.id ?? p.attributes?.base_url}
             value={p.attributes?.base_url || ""}
           >
-            {`${p.attributes?.name} - ${p.id}`}
+            {`${p.id}: ${p.attributes?.name}`}
           </option>
         ))}
         <option value="__custom__">Custom endpoint…</option>
@@ -139,7 +139,7 @@ export function DatabaseSelector({
               </option>
               {childEntries.map((c) => (
                 <option key={c.id} value={c.id}>
-                  {`${c.id} - ${c.name}`}
+                  {`${c.id}: ${c.name}`}
                 </option>
               ))}
             </>

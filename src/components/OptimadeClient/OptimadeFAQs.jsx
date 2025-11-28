@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { containerStyle } from "../../styles/containerStyles";
 
-import { textNormal, textSmall, textHyperlink } from "../../styles/textStyles";
+import {
+  textNormal,
+  textSmall,
+  textHyperlink,
+  textLarge,
+} from "../../styles/textStyles";
 
 const sectionclassName = "space-y-2";
 
@@ -13,27 +18,26 @@ export default function OptimadeFAQs() {
       className={`${containerStyle} ${textSmall} [&>p]:pl-4 [&>section>p]:pl-1`}
     >
       <section className={sectionclassName}>
-        <h4 className={textNormal}>What is the OPTIMADE Client?</h4>
+        {/* <h4 className={textNormal}>OPTIMADE Client</h4> */}
         <p>
-          This is a friendly client to search through databases and other
-          implementations exposing an OPTIMADE RESTful API. To get more
-          information about the OPTIMADE API, please see{" "}
+          The Materials Cloud OPTIMADE Client is a tool to search through
+          databases exposing an{" "}
           <a
             href="https://www.optimade.org/"
             target="_blank"
             className={textHyperlink}
             rel="noopener noreferrer"
           >
-            the official web page
+            OPTIMADE RESTful API
           </a>
-          . All providers are retrieved from{" "}
+          . All providers are retrieved from the{" "}
           <a
             href="https://providers.optimade.org/"
             target="_blank"
             className={textHyperlink}
             rel="noopener noreferrer"
           >
-            the OPTIMADE consortium's list of providers
+            official OPTIMADE consortium's list
           </a>
           .
         </p>
@@ -65,6 +69,8 @@ export default function OptimadeFAQs() {
 
       {showMore && (
         <section className={sectionclassName}>
+          <h1 className={textLarge}>Frequently asked questions</h1>
+
           <h4 className={textNormal}>
             Why is a given provider not shown in the client?
           </h4>

@@ -120,21 +120,6 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             />
           </div>
 
-          {/* Query URL display */}
-          {queryUrl && (
-            <div className={`${textNormal}`}>
-              Query Url:{" "}
-              <a
-                href={queryUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${textHyperlink}`}
-              >
-                {queryUrl}
-              </a>
-            </div>
-          )}
-
           <div className="flex flex-col md:flex-row w-full max-w-5xl px-4 py-2 gap-4">
             <div className="md:w-1/2 w-full">
               <OptimadeParentInfo
