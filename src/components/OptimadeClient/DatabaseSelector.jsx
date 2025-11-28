@@ -7,6 +7,7 @@ export function DatabaseSelector({
   providers,
   onQueryUrlChange,
   onChildChange,
+  onProviderChange,
 }) {
   const [selectedProvider, setSelectedProvider] = useState("");
   const [childEntries, setChildEntries] = useState([]);
@@ -77,6 +78,19 @@ export function DatabaseSelector({
       onChildChange?.(childSelected);
     }
   }, [customUrl, childSelected, selectedProvider]);
+
+  useEffect(() => {
+    // Notify parent of selected provider
+    if (selectedProvider === "__custom__" || !selectedProvider) {
+      onProviderChange?.(null);
+    } else {
+      // Find the full provider object from the list
+      const providerObj = providers.find(
+        (p) => p.attributes?.base_url === selectedProvider
+      );
+      onProviderChange?.(providerObj || null);
+    }
+  }, [selectedProvider, providers, onProviderChange]);
 
   return (
     <div className="flex flex-col items-start space-y-2 max-w-md">

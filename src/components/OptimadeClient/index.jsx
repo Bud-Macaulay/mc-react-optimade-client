@@ -3,6 +3,7 @@ import { getProvidersList, getStructures } from "../../api";
 import OptimadeHeader from "./OptimadeHeader";
 import { DatabaseSelector } from "./DatabaseSelector";
 import OptimadeFilters from "./OptimadeFilters";
+import OptimadeFAQs from "./OptimadeFAQs";
 import { ResultViewer } from "./ResultViewer";
 import ResultsDropdown from "./ResultsDropdown";
 import OptimadeProviderInfo from "./OptimadeProviderInfo";
@@ -12,7 +13,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import OptimadeNoResults from "./OptimadeNoResults";
 
 import MaterialsCloudHeader from "mc-react-header";
-import OptimadeMetadata from "./OptimadeMetadata";
+import OptimadeChildInfo from "./OptimadeChildInfo";
+import OptimadeParentInfo from "./OptimadeParentInfo";
 
 import { textHyperlink, textNormal, textSmall } from "../../styles/textStyles";
 import { containerStyle } from "../../styles/containerStyles";
@@ -21,6 +23,8 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
   const [providers, setProviders] = useState([]);
   const [queryUrl, setQueryUrl] = useState("");
   const [selectedChild, setSelectedChild] = useState(null);
+  const [selectedProvider, setSelectedProvider] = useState(null);
+
   const [currentFilter, setCurrentFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [currentResult, setCurrentResult] = useState(null);
@@ -96,11 +100,16 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
       <div className="min-h-screen max-w-5xl mx-auto bg-white mb-4 shadow-md rounded-xs">
         <div className="flex flex-col items-center w-full px-2 py-2">
           <OptimadeHeader />
+
+          <div className="p-2 w-full">
+            <OptimadeFAQs />
+          </div>
           {/* Database selector */}
           <div className="pt-4 p-2">
             <DatabaseSelector
               providers={providers}
               onChildChange={setSelectedChild}
+              onProviderChange={setSelectedProvider}
               onQueryUrlChange={(url) => {
                 // Only reset filter if provider actually changes
                 if (url !== queryUrl) {
@@ -126,8 +135,17 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             </div>
           )}
 
-          <div className="p-2 max-w-4xl">
-            <OptimadeMetadata child={selectedChild} />
+          <div className="flex flex-col md:flex-row w-full max-w-5xl px-4 py-2 gap-4">
+            <div className="md:w-1/2 w-full">
+              <OptimadeParentInfo
+                provider={selectedProvider}
+                providers={providers}
+              />
+            </div>
+
+            <div className="md:w-1/2 w-full">
+              <OptimadeChildInfo child={selectedChild} />
+            </div>
           </div>
 
           {/* Filters */}
