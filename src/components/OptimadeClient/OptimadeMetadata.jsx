@@ -48,8 +48,17 @@ export default function OptimadeMetadata({ child }) {
           <p className={paragraphclassName}>
             This webapp has filtered some providers for various reasons; some do
             not support open queries and others have no link to a meta-database.
-            Querying should still be possible through the 'Custom endpoint'
-            method.
+            To check the validity of a particular provider visit{" "}
+            <a
+              href="optimade.org/providers-dashboard/"
+              target="_blank"
+              className={hyperlinkclassName}
+              rel="noopener noreferrer"
+            >
+              the providers dashboard{" "}
+            </a>
+            . Querying of missing providers should still be possible through the
+            'Custom endpoint' method.
           </p>
 
           <h4 className={headingclassName}>
