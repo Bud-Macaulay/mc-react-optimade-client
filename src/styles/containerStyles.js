@@ -10,8 +10,8 @@ export const containerStyleDropdown =
   baseContainer + " overflow-hidden text-[11px] md:text-[13px]";
 
 export const containerStyleHalf =
-  containerStyleDropdown +
-  ` p-2 md:w-1/2  min-h-48 md:h-[450px] h-[200px]
+  baseContainer +
+  ` p-2 md:w-1/2  min-h-48 md:h-[450px] h-[200px] text-[11px] md:text-[13px]
    overflow-auto`;
 
 export const warningContainerStyle =
