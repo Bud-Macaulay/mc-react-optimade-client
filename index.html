@@ -2,9 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="The Materials Cloud OPTIMADE Client is a tool to search through databases exposing an OPTIMADE RESTful API."
+    />
     <title>Beta Optimade React Client</title>
+
+    <!-- Plausible analytics -->
+    <script type="text/javascript">
+      var header = document.getElementsByTagName("head")[0];
+      var plausible = document.createElement("script");
+      var domain_name = window.location.hostname;
+      var rollup_name = "plausible-rollup.materialscloud.org";
+
+      plausible.async = "";
+      plausible.defer = "";
+      plausible.dataset["domain"] = domain_name + "," + rollup_name;
+      plausible.src = "https://plausible.io/js/plausible.js";
+      header.appendChild(plausible);
+    </script>
+    <!-- end Plausible analytics -->
     <script type="module" crossorigin src="./assets/index-D9nNBH7s.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-LRDrc3xZ.css">
   </head>
