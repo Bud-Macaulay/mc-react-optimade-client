@@ -84,7 +84,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
     <>
       <MaterialsCloudHeader
         className="header"
-        activeSection={"discover"}
+        activeSection={"work"}
         breadcrumbsPath={[
           {
             name: "Work",
