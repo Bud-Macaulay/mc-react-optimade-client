@@ -10,6 +10,9 @@ export default function QEInputButton({ cifText }) {
       return;
     }
 
+    // Open immediately to avoid popup blocking stuff...
+    const popup = window.open("", "_blank");
+
     try {
       const formData = new FormData();
       formData.append("fileformat", "cif-ase");
@@ -31,12 +34,15 @@ export default function QEInputButton({ cifText }) {
       const json = await response.json();
 
       if (json.redirect) {
-        window.open(`${DOMAIN}${json.redirect}`, "_blank");
+        // channel the redirect into the popup window...
+        popup.location = `${DOMAIN}${json.redirect}`;
       } else {
+        popup.close();
         alert("Unexpected response from server");
       }
     } catch (err) {
       console.error(err);
+      popup.close();
       alert("Failed to upload structure.");
     }
   };
