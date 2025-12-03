@@ -99,6 +99,19 @@ export default function OptimadeFAQs() {
             positions, or partial occupancies), the JSON response is still
             fetched but the visualisation often fails.
           </p>
+
+          <p className="italic">
+            An earlier version of this tool was developed by Casper Welzel
+            Andersen. See the source code{" "}
+            <a
+              href="https://github.com/CasperWA/voila-optimade-client"
+              target="_blank"
+              className={textHyperlink}
+              rel="noopener noreferrer"
+            >
+              here.
+            </a>
+          </p>
         </section>
       )}
     </div>
