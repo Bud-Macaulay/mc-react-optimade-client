@@ -6,6 +6,11 @@ export default function ResultsDropdown({
   selectedResult,
   setSelectedResult,
 }) {
+  const handleChange = (e) => {
+    const chosen = results?.data?.find((r) => String(r.id) === e.target.value);
+    if (chosen) setSelectedResult(chosen);
+  };
+
   return (
     <>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -14,10 +19,7 @@ export default function ResultsDropdown({
       <select
         className={`${slateDropdown} w-full`}
         value={selectedResult?.id || ""}
-        onChange={(e) => {
-          const chosen = results?.data?.find((r) => r.id === e.target.value);
-          if (chosen) setSelectedResult(chosen);
-        }}
+        onChange={handleChange}
         disabled={resultsLoading || !results?.data?.length}
       >
         {!results?.data?.length ? (
@@ -26,7 +28,9 @@ export default function ResultsDropdown({
           results.data.map((result) => (
             <option key={result.id} value={result.id}>
               {`${
-                result.attributes?.chemical_formula_descriptive || "Unknown"
+                result.attributes?.chemical_formula_descriptive ||
+                result.attributes?.chemical_formula_hill ||
+                "Unknown"
               } (${result.id})`}
             </option>
           ))

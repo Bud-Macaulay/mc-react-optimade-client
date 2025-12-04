@@ -12,15 +12,17 @@ export function PaginationHandler({
 }) {
   if (!totalPages || totalPages < 1) return null;
 
-  console.log("metaData", metaData);
-
   const dataReturned = metaData?.data_returned || "N/A";
 
   const hasPrev = currentPage > 1;
-  const hasNext =
-    metaData.more_data_available === true ||
-    (typeof totalAvailable === "number" &&
-      totalAvailable > currentPage * perPage);
+
+  // check if next exists
+  let hasNext = false;
+  if (metaData?.more_data_available === true) {
+    hasNext = true;
+  } else if (currentPage < totalPages) {
+    hasNext = true;
+  }
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-1">
