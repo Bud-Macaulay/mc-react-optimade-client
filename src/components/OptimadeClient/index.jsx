@@ -140,9 +140,10 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
 
           {/* Filters */}
           <div className="p-2 w-full">
-            <AnimatePresence>
-              {queryUrl && (
+            <div style={{ display: queryUrl ? "block" : "none" }}>
+              <AnimatePresence>
                 <motion.div
+                  key="filters"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
@@ -153,12 +154,12 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
                     queryUrl={queryUrl}
                     onSubmit={(filter) => {
                       setCurrentFilter(filter);
-                      setCurrentPage(1); // reset page when filter changes
+                      setCurrentPage(1);
                     }}
                   />
                 </motion.div>
-              )}
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
           </div>
 
           <div className="p-2 w-full">
