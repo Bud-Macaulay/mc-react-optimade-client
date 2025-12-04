@@ -28,7 +28,7 @@ export default function OptimadeChildInfo({ child }) {
         <p>
           Base url:{" "}
           <a
-            href={homepage}
+            href={base_url}
             target="_blank"
             rel="noopener noreferrer"
             className={textHyperlink}
