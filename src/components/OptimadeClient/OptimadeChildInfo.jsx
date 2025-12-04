@@ -4,8 +4,6 @@ import { textNormal, textTiny, textHyperlink } from "../../styles/textStyles";
 export default function OptimadeChildInfo({ child }) {
   if (!child) return;
 
-  console.log("childAttr", child);
-
   const { name, description, homepage, base_url, ...otherAttrs } = child;
 
   return (

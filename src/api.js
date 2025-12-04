@@ -126,6 +126,62 @@ export async function getStructures({
   throw new Error("All fetch attempts failed for getStructures");
 }
 
+export async function getElementsCount({ providerUrl }) {
+  const start = performance.now();
+
+  const minUrl = `${providerUrl}/v1/structures?sort=nelements&response_format=json&response_fields=nelements&page_limit=1`;
+  const maxUrl = `${providerUrl}/v1/structures?sort=-nelements&response_format=json&response_fields=nelements&page_limit=1`;
+
+  async function fetchValue(url) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) return null;
+
+      const json = await res.json();
+      const value = json?.data?.[0]?.attributes?.nelements;
+
+      return typeof value === "number" ? value : null;
+    } catch {
+      return null;
+    }
+  }
+
+  const min = await fetchValue(minUrl);
+  const max = await fetchValue(maxUrl);
+
+  const durationMs = performance.now() - start;
+
+  return { min, max, durationMs };
+}
+
+export async function getSitesCount({ providerUrl }) {
+  const attempts = [
+    { name: "direct", url: `${providerUrl}/v1/info/structures` },
+    ...corsProxies.map((proxy) => ({
+      name: proxy.name,
+      url: proxy.urlRule(`${providerUrl}/v1/info/structures`),
+    })),
+  ];
+
+  for (const { url, name } of attempts) {
+    try {
+      const res = await fetch(url);
+      if (!res.ok) continue;
+
+      const json = await res.json();
+      const filteredProps = Object.fromEntries(
+        Object.entries(json.data.properties || {}).filter(([key]) =>
+          key.startsWith("_")
+        )
+      );
+
+      return { customProps: filteredProps, error: null };
+    } catch {
+      continue;
+    }
+  }
+}
+
 // very messy divide and conquer strategy for returning the elements that exist in the PT.
 // this strategy is very bad for very broad providers...
 // Divide-and-conquer strategy for determining elements present in the provider

@@ -65,7 +65,12 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
 
       const meta = data?.meta ?? { data_returned: 0, data_available: 0 };
       setMetaData(meta);
-      setTotalPages(Math.max(1, Math.ceil((meta.data_returned ?? 0) / 20)));
+      // we initalise totalPages to null if there is no indexing (i.e jk-9v)
+      setTotalPages(
+        meta.data_returned != null && !isNaN(meta.data_returned)
+          ? Math.max(1, Math.ceil(meta.data_returned / 20))
+          : "N/A"
+      );
 
       setCurrentResult(data?.data[0] || null);
     } catch (err) {
