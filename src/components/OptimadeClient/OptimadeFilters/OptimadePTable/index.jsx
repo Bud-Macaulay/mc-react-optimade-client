@@ -94,7 +94,7 @@ export default function PTable({
   };
 
   return (
-    <div className="w-full max-w-full mx-auto p-0">
+    <div className="w-full max-w-full mx-auto px-0 md:px-2">
       <div className="@container">
         <div className="flex justify-end pb-2 pr-1.5">
           <HelpIcon

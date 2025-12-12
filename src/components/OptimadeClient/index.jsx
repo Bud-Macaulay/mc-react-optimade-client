@@ -103,7 +103,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
       />
       {/* make the inner container */}
       <div className="min-h-screen max-w-5xl mx-auto bg-white mb-4 shadow-md rounded-xs">
-        <div className="flex flex-col items-center w-full px-2 py-2">
+        <div className="flex flex-col items-center w-full px-2 md:px-4 py-2">
           <OptimadeHeader />
 
           <div className="p-2 w-full">
@@ -125,7 +125,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row w-full max-w-5xl px-4 py-2 gap-4">
+          <div className="flex flex-col md:flex-row w-full max-w-5xl px-2 md:px-4 py-2 gap-4">
             <div className="md:w-1/2 w-full">
               <OptimadeParentInfo
                 provider={selectedProvider}
@@ -168,7 +168,7 @@ export function OptimadeClient({ hideProviderList = ["exmpl", "matcloud"] }) {
 
           {/* The results are only attempted to render if there is a valid query URL */}
           {queryUrl && (
-            <div className="px-2 w-full">
+            <div className="px-2 md:px-4 w-full">
               {/* Loading spinner haphazardly dumped in the middle of the section */}
               {loading && (
                 <div className="flex justify-center items-center h-[610px]">
