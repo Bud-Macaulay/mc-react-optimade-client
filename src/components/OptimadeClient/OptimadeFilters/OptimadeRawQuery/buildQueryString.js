@@ -3,7 +3,7 @@ export function buildQueryString(
   defaultNumSitesRange,
   selectedElements,
   numElementsRange,
-  numSitesRange
+  numSitesRange,
 ) {
   const parts = [];
 
@@ -15,13 +15,14 @@ export function buildQueryString(
     if (state === 2) exclude.push(symbol);
   }
 
-  if (exclude.length) {
-    parts.push(
-      `NOT elements HAS ANY ${exclude.map((e) => `"${e}"`).join(", ")}`
-    );
-  }
   if (include.length) {
     parts.push(`elements HAS ALL ${include.map((e) => `"${e}"`).join(", ")}`);
+  }
+
+  if (exclude.length) {
+    parts.push(
+      `NOT elements HAS ANY ${exclude.map((e) => `"${e}"`).join(", ")}`,
+    );
   }
 
   // Atom count filter
