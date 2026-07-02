@@ -1,3 +1,7 @@
+// Builds an optimade query string from the selected elements and filters
+// query language order has been optimised so that typical providers can maximise index use
+// (NOTs are last, and the most selective filters are first)
+
 export function buildQueryString(
   defaultNumElementsRange,
   defaultNumSitesRange,
@@ -15,16 +19,6 @@ export function buildQueryString(
     if (state === 2) exclude.push(symbol);
   }
 
-  if (include.length) {
-    parts.push(`elements HAS ALL ${include.map((e) => `"${e}"`).join(", ")}`);
-  }
-
-  if (exclude.length) {
-    parts.push(
-      `NOT elements HAS ANY ${exclude.map((e) => `"${e}"`).join(", ")}`,
-    );
-  }
-
   // Atom count filter
   if (numElementsRange[0] !== defaultNumElementsRange[0]) {
     parts.push(`nelements>=${numElementsRange[0]}`);
@@ -39,6 +33,16 @@ export function buildQueryString(
   }
   if (numSitesRange[1] !== defaultNumSitesRange[1]) {
     parts.push(`nsites<=${numSitesRange[1]}`);
+  }
+
+  if (include.length) {
+    parts.push(`elements HAS ALL ${include.map((e) => `"${e}"`).join(", ")}`);
+  }
+
+  if (exclude.length) {
+    parts.push(
+      `NOT elements HAS ANY ${exclude.map((e) => `"${e}"`).join(", ")}`,
+    );
   }
 
   return parts.join(" AND ");
