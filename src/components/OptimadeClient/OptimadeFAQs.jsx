@@ -50,9 +50,7 @@ export default function OptimadeFAQs() {
             {showMore ? "Hide additional Info" : "More info"}
           </span>
           <svg
-            className={`w-4 h-4 transition-transform duration-200 ${
-              showMore ? "rotate-90" : "rotate-0"
-            }`}
+            className={`w-4 h-4 ${showMore ? "rotate-90" : "rotate-0"}`}
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -100,7 +98,7 @@ export default function OptimadeFAQs() {
             fetched but the visualisation often fails.
           </p>
 
-          <p className="italic">
+          <p className="italic text-slate-500">
             An earlier version of this tool was developed by Casper Welzel
             Andersen. See the source code{" "}
             <a
