@@ -1,19 +1,16 @@
 {
-  "lastUpdated": "2026-08-23T03:53:37.577Z",
+  "lastUpdated": "2026-08-30T09:07:37.730Z",
   "data": [
     {
       "providerUrl": "https://cmr-optimade.fysik.dtu.dk",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.45675091775000004
+      "avgTimePerRequest": 0.48863953450000003
     },
     {
       "providerUrl": "https://aflow.org/API/optimade/",
-      "ptable": {
-        "all": false
-      },
-      "avgTimePerRequest": 0.33621715450000006
+      "all": false
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/archive/ed-g2",
@@ -138,7 +135,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.19829486350000014
+      "avgTimePerRequest": 0.3451131250000001
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/archive/1z-pd",
@@ -263,7 +260,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.14620718599999988
+      "avgTimePerRequest": 0.10104031149999991
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/mc3d-pbe-v1",
@@ -388,7 +385,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.25085377449999996
+      "avgTimePerRequest": 0.10334251250000011
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/archive/m0-zg",
@@ -513,7 +510,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.16169443999999975
+      "avgTimePerRequest": 0.10093002100000012
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/mc3d-pbesol-v1",
@@ -638,7 +635,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.10951698699999997
+      "avgTimePerRequest": 0.10118967850000013
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/mc3d-pbesol-v2",
@@ -763,7 +760,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11020822750000002
+      "avgTimePerRequest": 0.10158467299999983
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/mc2d",
@@ -888,7 +885,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.10913405450000005
+      "avgTimePerRequest": 0.10269032750000019
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/2dtopo",
@@ -1013,7 +1010,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11023784099999996
+      "avgTimePerRequest": 0.10063494633333328
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/pyrene-mofs",
@@ -1138,7 +1135,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11054083433333335
+      "avgTimePerRequest": 0.10118534466666672
     },
     {
       "providerUrl": "http://mpddoptimade.phaseslab.org",
@@ -1263,7 +1260,7 @@
         "No": true,
         "Lr": true
       },
-      "avgTimePerRequest": 10.147145933
+      "avgTimePerRequest": 10.287870235
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/curated-cofs",
@@ -1388,7 +1385,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11059687850000001
+      "avgTimePerRequest": 0.10155982099999994
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/stoceriaitf",
@@ -1513,7 +1510,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11130416675000016
+      "avgTimePerRequest": 0.10126013050000006
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/autowannier",
@@ -1638,7 +1635,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11116954149999993
+      "avgTimePerRequest": 0.1019400424999999
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/main/tin-antimony-sulfoiodide",
@@ -1763,143 +1760,24 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.11124922875000015
+      "avgTimePerRequest": 0.1015810977499998
     },
     {
       "providerUrl": "https://nomad-lab.eu/prod/v1/optimade/",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.3563771240000001
+      "avgTimePerRequest": 0.342786481
     },
     {
-      "providerUrl": "https://optimade.odbx.science",
-      "undefined": false,
-      "H": false,
-      "He": false,
-      "Li": true,
-      "Be": false,
-      "B": false,
-      "C": false,
-      "N": false,
-      "O": false,
-      "F": false,
-      "Ne": false,
-      "Na": false,
-      "Mg": false,
-      "Al": false,
-      "Si": false,
-      "P": false,
-      "S": false,
-      "Cl": false,
-      "Ar": false,
-      "K": false,
-      "Ca": false,
-      "Sc": false,
-      "Ti": false,
-      "V": false,
-      "Cr": false,
-      "Mn": false,
-      "Fe": false,
-      "Co": false,
-      "Ni": false,
-      "Cu": false,
-      "Zn": false,
-      "Ga": false,
-      "Ge": false,
-      "As": false,
-      "Se": false,
-      "Br": false,
-      "Kr": false,
-      "Rb": false,
-      "Sr": false,
-      "Y": false,
-      "Zr": false,
-      "Nb": false,
-      "Mo": false,
-      "Tc": false,
-      "Ru": false,
-      "Rh": false,
-      "Pd": false,
-      "Ag": false,
-      "Cd": false,
-      "In": false,
-      "Sn": true,
-      "Sb": false,
-      "Te": false,
-      "I": false,
-      "Xe": false,
-      "Cs": false,
-      "Ba": false,
-      "Hf": false,
-      "Ta": false,
-      "W": false,
-      "Re": false,
-      "Os": false,
-      "Ir": false,
-      "Pt": false,
-      "Au": false,
-      "Hg": false,
-      "Tl": false,
-      "Pb": false,
-      "Bi": false,
-      "Po": false,
-      "At": false,
-      "Rn": false,
-      "Fr": false,
-      "Ra": false,
-      "Rf": false,
-      "Db": false,
-      "Sg": false,
-      "Bh": false,
-      "Hs": false,
-      "Mt": false,
-      "Ds": false,
-      "Rg": false,
-      "Cn": false,
-      "Nh": false,
-      "Fl": false,
-      "Mc": false,
-      "Lv": false,
-      "Ts": false,
-      "Og": false,
-      "La": false,
-      "Ce": false,
-      "Pr": false,
-      "Nd": false,
-      "Pm": false,
-      "Sm": false,
-      "Eu": false,
-      "Gd": false,
-      "Tb": false,
-      "Dy": false,
-      "Ho": false,
-      "Er": false,
-      "Tm": false,
-      "Yb": false,
-      "Lu": false,
-      "Ac": false,
-      "Th": false,
-      "Pa": false,
-      "U": false,
-      "Np": false,
-      "Pu": false,
-      "Am": false,
-      "Cm": false,
-      "Bk": false,
-      "Cf": false,
-      "Es": false,
-      "Fm": false,
-      "Md": false,
-      "No": false,
-      "Lr": false
+      "providerUrl": "https://optimade.odbx.science"
     },
     {
       "providerUrl": "https://api.mpds.io",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.575521692
+      "avgTimePerRequest": 0.26198810424999996
     },
     {
       "providerUrl": "https://optimade.materialsproject.org",
@@ -2024,21 +1902,18 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.9131536189999999
+      "avgTimePerRequest": 1.261821704
     },
     {
       "providerUrl": "http://mpod_optimade.cimav.edu.mx",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 10.45021733675
+      "avgTimePerRequest": 10.376865281
     },
     {
       "providerUrl": "https://oqmd.org/optimade/",
-      "ptable": {
-        "all": false
-      },
-      "avgTimePerRequest": 13.687801222000001
+      "all": false
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/archive/jk-9v",
@@ -2163,14 +2038,14 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.19124086766666673
+      "avgTimePerRequest": 0.10095142066666661
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/pchprop",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.43833392374999997
+      "avgTimePerRequest": 0.4223266907500001
     },
     {
       "providerUrl": "https://optimade.materialscloud.org/archive/zt-z4",
@@ -2295,132 +2170,135 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.14989027333333343
+      "avgTimePerRequest": 0.1015433046666667
     },
     {
-      "providerUrl": "https://alexandria.icams.rub.de/pbesol"
+      "providerUrl": "https://alexandria.icams.rub.de/pbesol",
+      "ptable": {
+        "undefined": false,
+        "H": true,
+        "He": false,
+        "Li": true,
+        "Be": true,
+        "B": true,
+        "C": true,
+        "N": true,
+        "O": true,
+        "F": true,
+        "Ne": true,
+        "Na": true,
+        "Mg": true,
+        "Al": true,
+        "Si": true,
+        "P": true,
+        "S": true,
+        "Cl": true,
+        "Ar": true,
+        "K": true,
+        "Ca": true,
+        "Sc": true,
+        "Ti": true,
+        "V": true,
+        "Cr": true,
+        "Mn": true,
+        "Fe": true,
+        "Co": true,
+        "Ni": true,
+        "Cu": true,
+        "Zn": true,
+        "Ga": true,
+        "Ge": true,
+        "As": true,
+        "Se": true,
+        "Br": true,
+        "Kr": true,
+        "Rb": true,
+        "Sr": true,
+        "Y": true,
+        "Zr": true,
+        "Nb": true,
+        "Mo": true,
+        "Tc": true,
+        "Ru": true,
+        "Rh": true,
+        "Pd": true,
+        "Ag": true,
+        "Cd": true,
+        "In": true,
+        "Sn": true,
+        "Sb": true,
+        "Te": true,
+        "I": true,
+        "Xe": true,
+        "Cs": true,
+        "Ba": true,
+        "Hf": true,
+        "Ta": true,
+        "W": true,
+        "Re": true,
+        "Os": true,
+        "Ir": true,
+        "Pt": true,
+        "Au": true,
+        "Hg": true,
+        "Tl": true,
+        "Pb": true,
+        "Bi": true,
+        "Po": false,
+        "At": false,
+        "Rn": false,
+        "Fr": false,
+        "Ra": false,
+        "Rf": false,
+        "Db": false,
+        "Sg": false,
+        "Bh": false,
+        "Hs": false,
+        "Mt": false,
+        "Ds": false,
+        "Rg": false,
+        "Cn": false,
+        "Nh": false,
+        "Fl": false,
+        "Mc": false,
+        "Lv": false,
+        "Ts": false,
+        "Og": false,
+        "La": true,
+        "Ce": true,
+        "Pr": true,
+        "Nd": true,
+        "Pm": true,
+        "Sm": true,
+        "Eu": true,
+        "Gd": true,
+        "Tb": true,
+        "Dy": true,
+        "Ho": true,
+        "Er": true,
+        "Tm": true,
+        "Yb": false,
+        "Lu": true,
+        "Ac": true,
+        "Th": true,
+        "Pa": true,
+        "U": true,
+        "Np": true,
+        "Pu": true,
+        "Am": false,
+        "Cm": false,
+        "Bk": false,
+        "Cf": false,
+        "Es": false,
+        "Fm": false,
+        "Md": false,
+        "No": false,
+        "Lr": false
+      },
+      "avgTimePerRequest": 0.26152948027894735
     },
     {
-      "providerUrl": "https://optimade-misc.odbx.science",
-      "undefined": false,
-      "H": true,
-      "He": false,
-      "Li": true,
-      "Be": true,
-      "B": true,
-      "C": true,
-      "N": true,
-      "O": true,
-      "F": true,
-      "Ne": false,
-      "Na": true,
-      "Mg": true,
-      "Al": true,
-      "Si": true,
-      "P": true,
-      "S": true,
-      "Cl": true,
-      "Ar": false,
-      "K": true,
-      "Ca": true,
-      "Sc": true,
-      "Ti": true,
-      "V": true,
-      "Cr": true,
-      "Mn": true,
-      "Fe": true,
-      "Co": true,
-      "Ni": true,
-      "Cu": true,
-      "Zn": true,
-      "Ga": true,
-      "Ge": true,
-      "As": true,
-      "Se": true,
-      "Br": true,
-      "Kr": true,
-      "Rb": true,
-      "Sr": true,
-      "Y": true,
-      "Zr": true,
-      "Nb": true,
-      "Mo": true,
-      "Tc": true,
-      "Ru": true,
-      "Rh": true,
-      "Pd": true,
-      "Ag": true,
-      "Cd": true,
-      "In": true,
-      "Sn": true,
-      "Sb": true,
-      "Te": true,
-      "I": true,
-      "Xe": true,
-      "Cs": true,
-      "Ba": true,
-      "Hf": true,
-      "Ta": true,
-      "W": true,
-      "Re": true,
-      "Os": true,
-      "Ir": true,
-      "Pt": true,
-      "Au": true,
-      "Hg": true,
-      "Tl": true,
-      "Pb": true,
-      "Bi": true,
-      "Po": false,
-      "At": false,
-      "Rn": false,
-      "Fr": false,
-      "Ra": false,
-      "Rf": false,
-      "Db": false,
-      "Sg": false,
-      "Bh": false,
-      "Hs": false,
-      "Mt": false,
-      "Ds": false,
-      "Rg": false,
-      "Cn": false,
-      "Nh": false,
-      "Fl": false,
-      "Mc": false,
-      "Lv": false,
-      "Ts": false,
-      "Og": false,
-      "La": true,
-      "Ce": true,
-      "Pr": true,
-      "Nd": true,
-      "Pm": true,
-      "Sm": true,
-      "Eu": true,
-      "Gd": true,
-      "Tb": true,
-      "Dy": true,
-      "Ho": true,
-      "Er": true,
-      "Tm": true,
-      "Yb": true,
-      "Lu": true,
-      "Ac": true,
-      "Th": true,
-      "Pa": true,
-      "U": true,
-      "Np": true,
-      "Pu": true,
-      "Am": false,
-      "Cm": false,
-      "Bk": false,
-      "Cf": false,
-      "Es": false,
-      "Fm": false,
-      "Md": false,
-      "No": false,
-      "Lr": false
+      "providerUrl": "https://optimade-misc.odbx.science"
     },
     {
       "providerUrl": "http://optimade.2dmatpedia.org",
@@ -2545,7 +2423,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.7237311799999998
+      "avgTimePerRequest": 0.809027849
     },
     {
       "providerUrl": "https://www.crystallography.net/tcod/optimade",
@@ -2670,129 +2548,10 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 0.7777651099999998
+      "avgTimePerRequest": 0.7278134399999999
     },
     {
-      "providerUrl": "https://optimade-gnome.odbx.science",
-      "undefined": false,
-      "H": true,
-      "He": false,
-      "Li": true,
-      "Be": true,
-      "B": true,
-      "C": true,
-      "N": true,
-      "O": true,
-      "F": true,
-      "Ne": false,
-      "Na": true,
-      "Mg": true,
-      "Al": true,
-      "Si": true,
-      "P": true,
-      "S": true,
-      "Cl": true,
-      "Ar": false,
-      "K": true,
-      "Ca": true,
-      "Sc": true,
-      "Ti": true,
-      "V": true,
-      "Cr": true,
-      "Mn": true,
-      "Fe": true,
-      "Co": true,
-      "Ni": true,
-      "Cu": true,
-      "Zn": true,
-      "Ga": true,
-      "Ge": true,
-      "As": true,
-      "Se": true,
-      "Br": true,
-      "Kr": false,
-      "Rb": true,
-      "Sr": true,
-      "Y": true,
-      "Zr": true,
-      "Nb": true,
-      "Mo": true,
-      "Tc": true,
-      "Ru": true,
-      "Rh": true,
-      "Pd": true,
-      "Ag": true,
-      "Cd": true,
-      "In": true,
-      "Sn": true,
-      "Sb": true,
-      "Te": true,
-      "I": true,
-      "Xe": false,
-      "Cs": true,
-      "Ba": true,
-      "Hf": true,
-      "Ta": true,
-      "W": true,
-      "Re": true,
-      "Os": true,
-      "Ir": true,
-      "Pt": true,
-      "Au": true,
-      "Hg": true,
-      "Tl": true,
-      "Pb": true,
-      "Bi": true,
-      "Po": false,
-      "At": false,
-      "Rn": false,
-      "Fr": false,
-      "Ra": false,
-      "Rf": false,
-      "Db": false,
-      "Sg": false,
-      "Bh": false,
-      "Hs": false,
-      "Mt": false,
-      "Ds": false,
-      "Rg": false,
-      "Cn": false,
-      "Nh": false,
-      "Fl": false,
-      "Mc": false,
-      "Lv": false,
-      "Ts": false,
-      "Og": false,
-      "La": true,
-      "Ce": true,
-      "Pr": true,
-      "Nd": true,
-      "Pm": true,
-      "Sm": true,
-      "Eu": true,
-      "Gd": true,
-      "Tb": true,
-      "Dy": true,
-      "Ho": true,
-      "Er": true,
-      "Tm": true,
-      "Yb": true,
-      "Lu": true,
-      "Ac": true,
-      "Th": true,
-      "Pa": true,
-      "U": true,
-      "Np": true,
-      "Pu": true,
-      "Am": false,
-      "Cm": false,
-      "Bk": false,
-      "Cf": false,
-      "Es": false,
-      "Fm": false,
-      "Md": false,
-      "No": false,
-      "Lr": false
+      "providerUrl": "https://optimade-gnome.odbx.science"
     },
     {
       "providerUrl": "https://www.crystallography.net/cod/optimade",
@@ -2917,7 +2676,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 5.960943378
+      "avgTimePerRequest": 5.643154088
     },
     {
       "providerUrl": "http://optimade.openmaterialsdb.se",
@@ -3042,7 +2801,7 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 1.5583453749999998
+      "avgTimePerRequest": 1.4988090539999994
     },
     {
       "providerUrl": "https://jarvis.nist.gov/optimade/jarvisdft",
@@ -3167,10 +2926,132 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 2.8459883850000005
+      "avgTimePerRequest": 2.5800162679999996
     },
     {
-      "providerUrl": "https://alexandria.icams.rub.de/pbe"
+      "providerUrl": "https://alexandria.icams.rub.de/pbe",
+      "ptable": {
+        "undefined": false,
+        "H": true,
+        "He": true,
+        "Li": true,
+        "Be": true,
+        "B": true,
+        "C": true,
+        "N": true,
+        "O": true,
+        "F": true,
+        "Ne": true,
+        "Na": true,
+        "Mg": true,
+        "Al": true,
+        "Si": true,
+        "P": true,
+        "S": true,
+        "Cl": true,
+        "Ar": true,
+        "K": true,
+        "Ca": true,
+        "Sc": true,
+        "Ti": true,
+        "V": true,
+        "Cr": true,
+        "Mn": true,
+        "Fe": true,
+        "Co": true,
+        "Ni": true,
+        "Cu": true,
+        "Zn": true,
+        "Ga": true,
+        "Ge": true,
+        "As": true,
+        "Se": true,
+        "Br": true,
+        "Kr": true,
+        "Rb": true,
+        "Sr": true,
+        "Y": true,
+        "Zr": true,
+        "Nb": true,
+        "Mo": true,
+        "Tc": true,
+        "Ru": true,
+        "Rh": true,
+        "Pd": true,
+        "Ag": true,
+        "Cd": true,
+        "In": true,
+        "Sn": true,
+        "Sb": true,
+        "Te": true,
+        "I": true,
+        "Xe": true,
+        "Cs": true,
+        "Ba": true,
+        "Hf": true,
+        "Ta": true,
+        "W": true,
+        "Re": true,
+        "Os": true,
+        "Ir": true,
+        "Pt": true,
+        "Au": true,
+        "Hg": true,
+        "Tl": true,
+        "Pb": true,
+        "Bi": true,
+        "Po": false,
+        "At": false,
+        "Rn": false,
+        "Fr": false,
+        "Ra": false,
+        "Rf": false,
+        "Db": false,
+        "Sg": false,
+        "Bh": false,
+        "Hs": false,
+        "Mt": false,
+        "Ds": false,
+        "Rg": false,
+        "Cn": false,
+        "Nh": false,
+        "Fl": false,
+        "Mc": false,
+        "Lv": false,
+        "Ts": false,
+        "Og": false,
+        "La": true,
+        "Ce": true,
+        "Pr": true,
+        "Nd": true,
+        "Pm": true,
+        "Sm": true,
+        "Eu": true,
+        "Gd": true,
+        "Tb": true,
+        "Dy": true,
+        "Ho": true,
+        "Er": true,
+        "Tm": true,
+        "Yb": true,
+        "Lu": true,
+        "Ac": true,
+        "Th": true,
+        "Pa": true,
+        "U": true,
+        "Np": true,
+        "Pu": true,
+        "Am": false,
+        "Cm": false,
+        "Bk": false,
+        "Cf": false,
+        "Es": false,
+        "Fm": false,
+        "Md": false,
+        "No": false,
+        "Lr": false
+      },
+      "avgTimePerRequest": 1.6138953792894737
     },
     {
       "providerUrl": "https://optimade.matterverse.ai",
@@ -3295,77 +3176,77 @@
         "No": false,
         "Lr": false
       },
-      "avgTimePerRequest": 30.168459028500003
+      "avgTimePerRequest": 30.052017813499997
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/afmdb",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.4278398352500001
+      "avgTimePerRequest": 0.45182748200000017
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/benchmarkset1500",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.1481408217500002
+      "avgTimePerRequest": 0.13764847025000018
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/biosimdb",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.14122829675000004
+      "avgTimePerRequest": 0.14145825574999982
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/cathub-datasets",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.1407433179999998
+      "avgTimePerRequest": 0.14026346700000022
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/cathub-publications",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.14475466275000007
+      "avgTimePerRequest": 0.14857266274999983
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/chemotion",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.17423946075000005
+      "avgTimePerRequest": 0.16246920075000026
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/data-to-knowledge",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.15360490675000027
+      "avgTimePerRequest": 0.15024006550000013
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/simpnmr-db",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.15744709349999994
+      "avgTimePerRequest": 0.1370503239999998
     },
     {
       "providerUrl": "https://index.psdi.ac.uk/optimade/stfc-open",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.14248255900000004
+      "avgTimePerRequest": 0.1602222314999999
     },
     {
       "providerUrl": "https://atomgpt.org/optimade/v1",
       "ptable": {
         "all": false
       },
-      "avgTimePerRequest": 0.07146013325000013
+      "avgTimePerRequest": 0.029346635249999965
     }
   ]
 }
